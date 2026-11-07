@@ -28,6 +28,11 @@ public class RewardCards : MonoBehaviour
 
     public List<GameObject> cardGameObjectList;
     public GameObject temp;
+    public GameObject DeckZone;
+    public float SizeUp = 70f;
+
+    private Animator ConfettiAnimator;
+    private GameObject confetti;
 
     void Start()
     {
@@ -49,12 +54,18 @@ public class RewardCards : MonoBehaviour
         cardRewardCenter = GameObject.Find("CardReward-Center");
         cardRewardRight = GameObject.Find("CardReward-Right");
 
+        DeckZone = GameObject.Find("DeckZone");
+
         new1 = GameObject.Find("new1");
         new2 = GameObject.Find("new2");
         new3 = GameObject.Find("new3");
         new1.SetActive(false);
         new2.SetActive(false);
         new3.SetActive(false);
+
+        confetti = GameObject.Find("Confetti");
+        ConfettiAnimator = confetti.GetComponent<Animator>();
+        confetti.SetActive(false);
     }
 
     public void PickCard()
@@ -91,29 +102,17 @@ public class RewardCards : MonoBehaviour
         foreach (var card in fullDeckList)
         {
             temp = GameObject.Find(card);
-            if (card == cardReward1) { temp.transform.position = cardRewardCenter.transform.position; }
-            else if (card == cardReward2) { temp.transform.position = cardRewardLeft.transform.position; }
-            else if (card == cardReward3) { temp.transform.position = cardRewardRight.transform.position; }
+            if (card == cardReward1) { temp = Instantiate(temp, cardRewardCenter.transform); CardLocation(temp); }
+            if (card == cardReward2) { temp = Instantiate(temp, cardRewardLeft.transform); CardLocation(temp); }
+            if (card == cardReward3) { temp = Instantiate(temp, cardRewardRight.transform); CardLocation(temp); }
         }
 
-        //if duplicates, make duplicate to display in empty spot (THIS WILL BE FIXED WHEN ITS RENDERS AND NOT game objects
-        if(cardReward1 == cardReward2 || cardReward1 == cardReward3)
-        {
-            temp = GameObject.Find(cardReward1);
-            Instantiate(temp, cardRewardCenter.transform);
-        }
+        if(confetti != null) { confetti.SetActive(true); ConfettiAnimator.SetTrigger("Confetti"); }
+    }
 
-        if(cardReward2 == cardReward1 || cardReward2 == cardReward3)
-        {
-            temp = GameObject.Find(cardReward1);
-            Instantiate(temp, cardRewardLeft.transform);
-        }
-
-        if (cardReward3 == cardReward1 || cardReward3 == cardReward2)
-        {
-            temp = GameObject.Find(cardReward1);
-            Instantiate(temp, cardRewardRight.transform);
-        }
-
+    public void CardLocation(GameObject temp) 
+    {
+        temp.transform.localScale = new Vector3(temp.transform.localScale.x * SizeUp, temp.transform.localScale.y * SizeUp, temp.transform.localScale.z * SizeUp);
+        temp.transform.localPosition = new Vector3(-3.51f, -2.05f, 7f);
     }
 }
