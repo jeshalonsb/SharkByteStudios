@@ -62,6 +62,18 @@ public class MechUpgradeManager : MonoBehaviour
     [SerializeField] private GameObject currentButton;
     [SerializeField] private GameObject lastButton;
 
+    [Header("STAT UI")]
+    [SerializeField] private TextMeshProUGUI DamageStatText;
+    [SerializeField] private TextMeshProUGUI DamageStatTextIncrease;
+
+    [SerializeField] private TextMeshProUGUI HealthStatText;
+    [SerializeField] private TextMeshProUGUI HealthStatTextIncrease;
+
+    [SerializeField] private TextMeshProUGUI EnergyStatText;
+    [SerializeField] private TextMeshProUGUI EnergyStatTextIncrease;
+
+    private int stat;
+
     [Header("Send To Inventory")]
     [SerializeField] private string HeadCardSlot;
     [SerializeField] private string ArmsCardSlot;
@@ -78,23 +90,13 @@ public class MechUpgradeManager : MonoBehaviour
 
     private void Start()
     {
-        if (DDOL == null) { DDOL = GameObject.Find("DDOL"); inventory = DDOL.GetComponent<Inventory>(); }
-        if (inventory != null) { mechDeckList = inventory.mechDeckList; fullmechDeckList = inventory.fullmechDeckList; cardEffectList = inventory.cardEffectList; cardEffectValueList = inventory.cardEffectValueList; }
-        if (mainCamera == null) { mainCamera = GameObject.Find("Main Camera"); cameraControl = mainCamera.GetComponent<CameraControl>(); }
-        if (upHeadButton == null)
-        {
-            upHeadButton = GameObject.Find("Head");
-            upArmsButton = GameObject.Find("Arms Upper");
-
-            downArmsButton = GameObject.Find("Arms Lower");
-            downLegsButton = GameObject.Find("Legs");
-        }
-
-        if (SortCards == null) { SortCards = GameObject.Find("SortCards"); }
+        Init();
 
         GetCards();
-        DisplayCards();
         GetInventoryData();
+        DisplayCards();
+        
+        UpdateStatUI();
     }
 
     private void Update()
@@ -104,6 +106,7 @@ public class MechUpgradeManager : MonoBehaviour
         StartCoroutine(WaitForUpdate());
 
         //UpdateInventoryData();
+        UpdateStatUI();
     }
 
     void GetCards() //get all card slots from ui grid, put them in list
@@ -178,7 +181,7 @@ public class MechUpgradeManager : MonoBehaviour
         for (int i = 0; i < unlockNum; i++) //for each card unlocked, set it to game object and set the card slot to active
         {
             cardName = mechDeckList[i]; //set the text on the card to be the card name
-
+            
             //SET COLOR
             tempTransform = UICardObjectList[i].GetComponent<Transform>(); //grab transform of card slot
             temp = tempTransform.gameObject;
@@ -195,6 +198,9 @@ public class MechUpgradeManager : MonoBehaviour
 
             //SET ACTIVE
             UICardObjectList[i].SetActive(true); //display the card
+            if (HeadCardSlot == cardName) { UICardObjectList[i].SetActive(false); }
+            if (ArmsCardSlot == cardName) { UICardObjectList[i].SetActive(false); }
+            if (LegsCardSlot == cardName) { UICardObjectList[i].SetActive(false); }
         }
     }
 
@@ -367,7 +373,7 @@ public class MechUpgradeManager : MonoBehaviour
         textMesh.text = text;
     }
 
-    void UpdateButtonSprite(GameObject button, string card)
+    void UpdateButtonSprite(GameObject button, string card) //updates button sprite
     {
         Image buttonImage = button.GetComponent<Image>();
         tempsprite = GetSprite(card);
@@ -455,6 +461,8 @@ public class MechUpgradeManager : MonoBehaviour
         inventory.HeadCardSlotValue = HeadCardSlotValue; //int of value in each slot
         inventory.ArmsCardSlotValue = ArmsCardSlotValue;
         inventory.LegsCardSlotValue = LegsCardSlotValue;
+
+        //UpdateStatUI();
     }
 
     void GetInventoryData() //upon returning to scene, initialize data
@@ -471,14 +479,17 @@ public class MechUpgradeManager : MonoBehaviour
         LegsCardSlotValue = inventory.LegsCardSlotValue;
 
         //Update Card Slot + Button Text
-        if (inventory.HeadCardSlot != "") { OpenTextData(inventory.HeadCardSlot, 0); UpdateButtonText(upHeadButton, HeadCardSlot); } //Update button text
+        if (inventory.HeadCardSlot != "") { OpenTextData(inventory.HeadCardSlot, 0); UpdateButtonText(upHeadButton, HeadCardSlot); UpdateButtonSprite(upHeadButton, HeadCardSlot); } //Update button text
         if (inventory.ArmsCardSlot != "")
         {
             OpenTextData(inventory.ArmsCardSlot, 1);
             UpdateButtonText(upArmsButton, ArmsCardSlot);
             UpdateButtonText(downArmsButton, ArmsCardSlot);
+
+            UpdateButtonSprite(upArmsButton, ArmsCardSlot);
+            UpdateButtonSprite(downArmsButton, ArmsCardSlot);
         }
-        if (inventory.LegsCardSlot != "") { OpenTextData(inventory.LegsCardSlot, 2); UpdateButtonText(downLegsButton, LegsCardSlot); }
+        if (inventory.LegsCardSlot != "") { OpenTextData(inventory.LegsCardSlot, 2); UpdateButtonText(downLegsButton, LegsCardSlot); UpdateButtonSprite(downLegsButton, LegsCardSlot); }
 
         //Hide Mech cards in use
         if (fullmechDeckList.Contains(HeadCardSlot)) { index = fullmechDeckList.IndexOf(HeadCardSlot); temp = UICardObjectList[index]; temp.SetActive(false); } 
@@ -486,8 +497,86 @@ public class MechUpgradeManager : MonoBehaviour
         if (fullmechDeckList.Contains(LegsCardSlot)) { index = fullmechDeckList.IndexOf(LegsCardSlot); temp = UICardObjectList[index]; temp.SetActive(false); }
     }
 
+    public void UpdateStatUI()
+    {
+        //CALCULATE STATS then update stat text
+        //rn all the stat changes are positive, but if there is ever a thing that lowers stats we can change it to also check && stat > 0
+
+        float addStat;
+        //HEALTH
+        stat = 500;
+        if (HeadCardSlot.Contains("Health")) { addStat = IntPercentage(HeadCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
+        if(ArmsCardSlot.Contains("Health")) { addStat = IntPercentage(ArmsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
+        if(LegsCardSlot.Contains("Health")) { addStat = IntPercentage(LegsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
+
+        HealthStatText.text = ($"{stat}");
+        if(stat - 500 != 0) { HealthStatTextIncrease.text = ($"+{stat - 500}"); }
+        else { HealthStatTextIncrease.text = (""); }
+
+        //DAMAGE
+        stat = 1;
+        if (HeadCardSlot.Contains("Damage")) { addStat = IntPercentage(HeadCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
+        if (ArmsCardSlot.Contains("Damage")) { addStat = IntPercentage(ArmsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
+        if (LegsCardSlot.Contains("Damage")) { addStat = IntPercentage(LegsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
+
+        DamageStatText.text = ($"{stat}");
+        if(stat - 1 !=0) { DamageStatTextIncrease.text = ($"+{stat - 1}"); }
+        else { DamageStatTextIncrease.text = (""); }
+
+        //ENERGY
+        stat = 5;
+        if (HeadCardSlot.Contains("Energy")) { stat +=1; }
+        if (ArmsCardSlot.Contains("Energy")) { stat +=1; }
+        if (LegsCardSlot.Contains("Energy")) { stat +=1; }
+
+        EnergyStatText.text = ($"{stat}");
+        if (stat - 5 != 0) { EnergyStatTextIncrease.text = ($"+{stat - 5}"); }
+        else { EnergyStatTextIncrease.text = (""); }
+    }
+
     public void GoToScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+
+    float IntPercentage(int value)
+    {
+        float floatvalue = ((float)value) / 100; //make percentage
+        floatvalue = floatvalue + 1; //plus 1 so its instead of 5% -> 105% 
+        return floatvalue;
+    }
+    public void Init()
+    {
+        if (DDOL == null) { DDOL = GameObject.Find("DDOL"); inventory = DDOL.GetComponent<Inventory>(); }
+        if (inventory != null) { mechDeckList = inventory.mechDeckList; fullmechDeckList = inventory.fullmechDeckList; cardEffectList = inventory.cardEffectList; cardEffectValueList = inventory.cardEffectValueList; }
+        if (mainCamera == null) { mainCamera = GameObject.Find("Main Camera"); cameraControl = mainCamera.GetComponent<CameraControl>(); }
+        if (upHeadButton == null)
+        {
+            upHeadButton = GameObject.Find("Head");
+            upArmsButton = GameObject.Find("Arms Upper");
+
+            downArmsButton = GameObject.Find("Arms Lower");
+            downLegsButton = GameObject.Find("Legs");
+        }
+
+        if (SortCards == null) { SortCards = GameObject.Find("SortCards"); }
+
+        if (DamageStatText == null) 
+        {
+            GameObject tempObject = GameObject.Find("DamageStat");
+            DamageStatText = tempObject.GetComponent<TextMeshProUGUI>();
+            tempObject = GameObject.Find("DamageStatIncrease");
+            DamageStatTextIncrease = tempObject.GetComponent<TextMeshProUGUI>();
+
+            tempObject = GameObject.Find("HealthStat");
+            HealthStatText = tempObject.GetComponent<TextMeshProUGUI>();
+            tempObject = GameObject.Find("HealthStatIncrease");
+            HealthStatTextIncrease = tempObject.GetComponent<TextMeshProUGUI>();
+
+            tempObject = GameObject.Find("EnergyStat");
+            EnergyStatText = tempObject.GetComponent<TextMeshProUGUI>();
+            tempObject = GameObject.Find("EnergyStatIncrease");
+            EnergyStatTextIncrease = tempObject.GetComponent<TextMeshProUGUI>();
+        }
     }
 }
