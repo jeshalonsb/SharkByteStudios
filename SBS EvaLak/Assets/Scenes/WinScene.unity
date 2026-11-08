@@ -266,6 +266,9 @@ MonoBehaviour:
   duplicateList: []
   inventory: {fileID: 0}
   DDOL: {fileID: 0}
+  mechDeckList: []
+  fullmechdeckList: []
+  chance: 50
   cardName: 
   cardID: 0
   newreward: 0
@@ -1994,7 +1997,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4296329234143040754, guid: bdaf163e183bdb6498273fd45069e571, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 600250938217444023, guid: bdaf163e183bdb6498273fd45069e571, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 2876015048316110133, guid: bdaf163e183bdb6498273fd45069e571, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 3409338681304112076, guid: bdaf163e183bdb6498273fd45069e571, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 3390419857154383325, guid: bdaf163e183bdb6498273fd45069e571, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 2398092605698678387, guid: bdaf163e183bdb6498273fd45069e571, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 2168442953133694544, guid: bdaf163e183bdb6498273fd45069e571, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 1163646481007920459, guid: bdaf163e183bdb6498273fd45069e571, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 430387346694774947, guid: bdaf163e183bdb6498273fd45069e571, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: bdaf163e183bdb6498273fd45069e571, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7506911056459183136
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1363563202346339687, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_text
+      value: 'Energy Component
+
+        Card
+
+        Legs'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1363563202346339687, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.45882356
+      objectReference: {fileID: 0}
+    - target: {fileID: 1363563202346339687, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.67058825
+      objectReference: {fileID: 0}
+    - target: {fileID: 1363563202346339687, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.13725491
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664977305397368604, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_Name
+      value: LegsEnergy Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4630943922659666828, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 07c71d6b6c0ed1b4c9f4384028c0b650, type: 3}
+    - target: {fileID: 5944348571731453318, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_text
+      value: 'Energy Component
+
+        Card
+
+        Legs'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5944348571731453318, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.46274513
+      objectReference: {fileID: 0}
+    - target: {fileID: 5944348571731453318, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.73333335
+      objectReference: {fileID: 0}
+    - target: {fileID: 5944348571731453318, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.14117648
+      objectReference: {fileID: 0}
+    - target: {fileID: 5944348571731453318, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4285971236
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222224788734272674, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.2300005
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222224788734272674, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -10.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222224788734272674, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.9417048
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222224788734272674, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222224788734272674, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222224788734272674, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222224788734272674, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222224788734272674, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222224788734272674, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222224788734272674, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8389607127589998095, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 07c71d6b6c0ed1b4c9f4384028c0b650, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bf4e8dabee7785e45afcb0c829fcb586, type: 3}

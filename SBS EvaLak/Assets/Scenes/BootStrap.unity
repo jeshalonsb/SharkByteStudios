@@ -840,16 +840,8 @@ MonoBehaviour:
   - HeadHealth
   - ArmsHealth
   - LegsHealth
-  mechDeckList:
-  - HeadEnergy
-  - ArmsEnergy
-  - LegsEnergy
-  - HeadDamage
-  - ArmsDamage
-  - LegsDamage
-  - HeadHealth
-  - ArmsHealth
-  - LegsHealth
+  mechDeckList: []
+  unlockedMechDeckList: 000000000000000000
   cardEffectList:
   - 
   - 

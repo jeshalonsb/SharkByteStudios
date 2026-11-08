@@ -268,6 +268,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuffMultCard-2
       objectReference: {fileID: 0}
+    - target: {fileID: 3041029068382576727, guid: 027a6bb33ae723d4798512aded5fa972, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3550521661432829914, guid: 027a6bb33ae723d4798512aded5fa972, type: 3}
       propertyPath: m_LocalScale.y
       value: 1.985177
@@ -818,6 +822,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 376431941205248526, guid: 76eedaeb6f0f6bb458fc394f66dfed17, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2184036550352469379, guid: 76eedaeb6f0f6bb458fc394f66dfed17, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2817071112121145792, guid: 76eedaeb6f0f6bb458fc394f66dfed17, type: 3}
@@ -1783,6 +1791,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1167834059}
     m_Modifications:
+    - target: {fileID: 1675394794393794096, guid: df92cf5d41787074d8fd428f0c1a73a9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2866859186812815523, guid: df92cf5d41787074d8fd428f0c1a73a9, type: 3}
       propertyPath: m_Name
       value: ComboCard-0-A
@@ -2683,6 +2695,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DamageCard-1-A
       objectReference: {fileID: 0}
+    - target: {fileID: 3330738820934573871, guid: 4c11ad6e844313843950353ffe9c1a32, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6146746643035985752, guid: 4c11ad6e844313843950353ffe9c1a32, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.1839
@@ -3435,6 +3451,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1167834059}
     m_Modifications:
+    - target: {fileID: 931654723630187097, guid: 7bed38f406679484fbb5ae1d8af402ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4351871992385813706, guid: 7bed38f406679484fbb5ae1d8af402ec, type: 3}
       propertyPath: m_Name
       value: ComboCard-1-A
@@ -3694,6 +3714,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6920679542306745891, guid: 0dbfef1c578576348836610c088a4da6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9024497064821665935, guid: 0dbfef1c578576348836610c088a4da6, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -4280,6 +4304,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2469937140886496914, guid: ba16051a635914f4997586ead6619b09, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4571364291383719998, guid: ba16051a635914f4997586ead6619b09, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4937419776677932051, guid: ba16051a635914f4997586ead6619b09, type: 3}
@@ -5228,6 +5256,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7936389774538814511, guid: 965aaf96c2eb9a741998496d49ceede5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8292812840665623171, guid: 965aaf96c2eb9a741998496d49ceede5, type: 3}
       propertyPath: m_LocalScale.y
       value: 1.985177
@@ -5725,6 +5757,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6239399308980828518, guid: a6234db7546e94e4f8d2345eb039298e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6863603016253620911, guid: a6234db7546e94e4f8d2345eb039298e, type: 3}
       propertyPath: m_Name
       value: DamageCard-2-A
@@ -6173,6 +6209,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1167834059}
     m_Modifications:
+    - target: {fileID: 3937807703034634724, guid: 48f294791793a2448929695d2b12aceb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4572069751285307949, guid: 48f294791793a2448929695d2b12aceb, type: 3}
       propertyPath: m_Name
       value: DamageCard-0-A

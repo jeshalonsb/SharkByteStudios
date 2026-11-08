@@ -3,11 +3,18 @@ using UnityEngine;
 
 public class RewardCards : MonoBehaviour
 {
-    public List<string> unlockedDeckList;
-    public List<string> fullDeckList;
-    public List<string> duplicateList;
-    public Inventory inventory;
+    public List<string> unlockedDeckList; //bool list of unlocked action cards
+    public List<string> fullDeckList; //full list of action cards
+    public List<string> duplicateList; //list of duplicate cards
+    public Inventory inventory; 
     public GameObject DDOL;
+
+    public List<string> mechDeckList; //list of unlocked component cards
+    public List<string> fullmechdeckList; //full list of component cards
+    //currently no duplicate list for component cards, no earning dupes for it as we cant scrap component cards yet
+    //wait till shop rework to implement that
+    [SerializeField] private int chance = 100; //this is the chance of getting component cards, 50 = 50%; 100 = 100%
+    private string CardRewardType; //string, either action or component depending on what is being rewarded
 
     public string cardName;
     public int cardID;
@@ -50,6 +57,10 @@ public class RewardCards : MonoBehaviour
         cardGameObjectList = inventory.cardGameObjectList;
         duplicateList = inventory.duplicateList;
 
+        mechDeckList = inventory.mechDeckList;
+        fullmechdeckList = inventory.fullmechDeckList;
+        //if we want chance to be stored from enemies, chance can be saved in inventory after fighting enemy and then initialized here later
+
         cardRewardLeft = GameObject.Find("CardReward-Left");
         cardRewardCenter = GameObject.Find("CardReward-Center");
         cardRewardRight = GameObject.Find("CardReward-Right");
@@ -70,28 +81,70 @@ public class RewardCards : MonoBehaviour
 
     public void PickCard()
     {
-        if (unlockedDeckList.Count < fullDeckList.Count) //if you havent unlocked all the cards
+        //if (fullDeckList.Count - unlockedDeckList.Count < 3) { rewardNumber = fullDeckList.Count - unlockedDeckList.Count; } //if less then 3 rewards possible, only reward however many is left
+        rewardNumber = 3;
+        CardRewardType = ""; //reset card reward type
+
+        for (int i = 0; i < rewardNumber; i++) //for loop to make sure it happens 3 times
         {
-            if(fullDeckList.Count - unlockedDeckList.Count < 3) { rewardNumber = fullDeckList.Count - unlockedDeckList.Count; } //if less then 3 rewards possible, only reward however many is left
-            
-            for (int i = 0; i < rewardNumber; i++) //for loop to make sure it happens 3 times
+            if(mechDeckList.Count == fullmechdeckList.Count) { chance = 0; } //if you unlocked all component cards, set chance to earn them to zero since we cant earn dupes of it yet
+
+            int roll = Random.Range(0, 100);
+            if(roll > chance) { CardRewardType = "action"; }
+            else if(roll <= chance) { CardRewardType = "component"; }
+            if(chance == 0) { CardRewardType = "action"; }
+
+
+            switch(CardRewardType)
             {
-                cardID = Random.Range(0, fullDeckList.Count); //card index 
-                cardName = fullDeckList[cardID];
+                case "action":
+                    {
+                        cardID = Random.Range(0, fullDeckList.Count); //card index 
+                        cardName = fullDeckList[cardID];
 
-                if (unlockedDeckList.Contains(cardName)) { duplicateList.Add(cardName); }
-                else if (!unlockedDeckList.Contains(cardName)) 
-                {
-                    unlockedDeckList.Add(cardName);
-                    newreward = true;
-                }
+                        if (unlockedDeckList.Contains(cardName)) { duplicateList.Add(cardName); }
+                        else if (!unlockedDeckList.Contains(cardName))
+                        {
+                            unlockedDeckList.Add(cardName);
+                            newreward = true;
+                        }
 
-                if (i == 0) { cardReward1 = cardName; if (newreward) { new2.SetActive(true); } }
-                else if (i == 1) { cardReward2 = cardName; if (newreward) { new1.SetActive(true); } }
-                else if (i == 2) { cardReward3 = cardName; if (newreward) { new3.SetActive(true); } }
-                else { break; } //if somehow you do more than 3 iterations, break out
-                newreward = false;
+                        if (i == 0) { cardReward1 = cardName; if (newreward) { new2.SetActive(true); } }
+                        else if (i == 1) { cardReward2 = cardName; if (newreward) { new1.SetActive(true); } }
+                        else if (i == 2) { cardReward3 = cardName; if (newreward) { new3.SetActive(true); } }
+                        else { break; } //if somehow you do more than 3 iterations, break out
+                        newreward = false;
+                        break;
+                    }
+                case "component":
+                    {
+                        cardID = Random.Range(0, fullmechdeckList.Count); //card index 
+                        cardName = fullmechdeckList[cardID];
+
+                        if (mechDeckList.Contains(cardName)) 
+                        {
+                            //place for if there is dupe mech component cards, for now this will just pass
+                            i = i - 1; 
+                            break;
+                        }
+                        else if (!unlockedDeckList.Contains(cardName))
+                        {
+                            mechDeckList.Add(cardName);
+                            newreward = true;
+                        }
+
+                        if (i == 0) { cardReward1 = cardName; if (newreward) { new2.SetActive(true); } }
+                        else if (i == 1) { cardReward2 = cardName; if (newreward) { new1.SetActive(true); } }
+                        else if (i == 2) { cardReward3 = cardName; if (newreward) { new3.SetActive(true); } }
+                        else { break; } //if somehow you do more than 3 iterations, break out
+                        newreward = false;
+                        break;
+                    }
+                default: //if CardRewardType breaks
+                    Debug.Log(CardRewardType);
+                    break;
             }
+            
         }
 
         inventory.UpdateLockedCards();
@@ -99,7 +152,7 @@ public class RewardCards : MonoBehaviour
 
     public void DisplayCards()
     {
-        foreach (var card in fullDeckList)
+        foreach (var card in fullDeckList) //action card rewards
         {
             temp = GameObject.Find(card);
             if (card == cardReward1) { temp = Instantiate(temp, cardRewardCenter.transform); CardLocation(temp); }
@@ -107,7 +160,15 @@ public class RewardCards : MonoBehaviour
             if (card == cardReward3) { temp = Instantiate(temp, cardRewardRight.transform); CardLocation(temp); }
         }
 
-        if(confetti != null) { confetti.SetActive(true); ConfettiAnimator.SetTrigger("Confetti"); }
+        foreach (var card in fullmechdeckList) //component card rewards
+        {
+            temp = GameObject.Find(card);
+            if (card == cardReward1) { temp = Instantiate(temp, cardRewardCenter.transform); CardLocation(temp); }
+            if (card == cardReward2) { temp = Instantiate(temp, cardRewardLeft.transform); CardLocation(temp); }
+            if (card == cardReward3) { temp = Instantiate(temp, cardRewardRight.transform); CardLocation(temp); }
+        }
+
+        if (confetti != null) { confetti.SetActive(true); ConfettiAnimator.SetTrigger("Confetti"); }
     }
 
     public void CardLocation(GameObject temp) 

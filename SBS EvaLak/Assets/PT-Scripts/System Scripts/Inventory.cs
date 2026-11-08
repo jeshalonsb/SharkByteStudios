@@ -23,6 +23,7 @@ public class Inventory : MonoBehaviour
     [Header("Init Component Cards")] //FOR COMPONENT CARDS
     public List<string> fullmechDeckList; //this is all the possible cards for mech 
     public List<string> mechDeckList; //this is what the player owns for mech
+    public List<bool> unlockedMechDeckList; //bool to check if mech deck list is unlocked
     public List<string> cardEffectList; //list of all possible effects for full mech deck
     public List<int> cardEffectValueList; //these are the values for the effects of each card, so if damage is 5 then that should be 5 at the index for that card here
 
@@ -64,6 +65,7 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         checkLockList = new List<bool>(new bool[fullDeckList.Count]);
+        unlockedMechDeckList = new List<bool>(new bool[fullmechDeckList.Count]);
         UpdateLockedCards();
         //random population
         //while (deckList.Count < deckLength)
@@ -81,6 +83,13 @@ public class Inventory : MonoBehaviour
         foreach (var card in fullDeckList)
         {
             if (unlockedDeckList.Contains(card)) { tempIndex = fullDeckList.IndexOf(card); checkLockList[tempIndex] = true; }
+            //else { Debug.Log(card + " is currently locked."); }
+        }
+
+        tempIndex = 0;
+        foreach (var card in fullmechDeckList)
+        {
+            if (mechDeckList.Contains(card)) { tempIndex = fullmechDeckList.IndexOf(card); unlockedMechDeckList[tempIndex] = true; }
             //else { Debug.Log(card + " is currently locked."); }
         }
     }
