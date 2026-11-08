@@ -519,7 +519,7 @@ public class MechUpgradeManager : MonoBehaviour
         if (ArmsCardSlot.Contains("Damage")) { addStat = IntPercentage(ArmsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
         if (LegsCardSlot.Contains("Damage")) { addStat = IntPercentage(LegsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
 
-        DamageStatText.text = ($"{stat}");
+        DamageStatText.text = ($"x{stat}");
         if(stat - 1 !=0) { DamageStatTextIncrease.text = ($"+{stat - 1}"); }
         else { DamageStatTextIncrease.text = (""); }
 
