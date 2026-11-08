@@ -5,6 +5,8 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> enemyPrefabs;
 
+    public Transform spawnPoint;
+
     private GameObject currentEnemy;
 
     private GameObject DDOL;
@@ -40,10 +42,25 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    //public void SpawnEnemy(int index)
+    //{
+    //    if (currentEnemy != null) Destroy(currentEnemy);
+
+    //    currentEnemy = Instantiate(enemyPrefabs[index], transform);
+    //    currentEnemy.transform.position = spawnPoint.transform.position;
+
+    //    //Debug.Log("Spawn Point: " + spawnPoint.position);
+    //    //Debug.Log("Enemy Position: " + currentEnemy.transform.position);
+    //}
+
     public void SpawnEnemy(int index)
     {
         if (currentEnemy != null) Destroy(currentEnemy);
 
-        currentEnemy = Instantiate(enemyPrefabs[index], transform);
+        enemyPrefabs[index].SetActive(true);
+
+        //Debug.Log("Spawn Point: " + spawnPoint.position);
+        //Debug.Log("Enemy Position: " + currentEnemy.transform.position);
     }
+
 }
