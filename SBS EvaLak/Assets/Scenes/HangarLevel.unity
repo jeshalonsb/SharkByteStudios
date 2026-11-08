@@ -18314,10 +18314,10 @@ MonoBehaviour:
   reverseRotation: {fileID: 644051350}
   canRotate: 1
   Direction: 2
-  mechUpgradeButton: {fileID: 0}
-  levelSelectButton: {fileID: 0}
-  deckDoorButton: {fileID: 0}
-  shopDoorButton: {fileID: 0}
+  mechUpgradeButton: {fileID: 253545935}
+  levelSelectButton: {fileID: 645691198}
+  deckDoorButton: {fileID: 1251197898}
+  shopDoorButton: {fileID: 626554996}
   sceneName: 
   inventory: {fileID: 0}
   sceneNameList:

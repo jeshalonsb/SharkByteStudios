@@ -443,6 +443,8 @@ public class HangarManager : MonoBehaviour
     #region CloseAllDoor
     private void CloseAllDoors()   // co routine to close all doors when the player moves to a different location
     {
+        disableButton(deckbuildButton);
+        disableButton(shopButton);
         StartCoroutine(CloseDoors(deckBuildDoorLeft, deckBuildDoorRight, deckLeftClosed, deckRightClosed));
 
         StartCoroutine(CloseDoors(shopDoorLeft, shopDoorRight, shopLeftClosed, shopRightClosed));
@@ -469,8 +471,7 @@ public class HangarManager : MonoBehaviour
         leftDoor.position = leftPosition;
         rightDoor.position = rightPosition;
 
-        disableButton(deckbuildButton);
-        disableButton(shopButton);
+        
 
     }
     #endregion

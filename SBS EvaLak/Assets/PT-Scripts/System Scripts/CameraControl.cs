@@ -124,28 +124,28 @@ public class CameraControl : MonoBehaviour
 
         if (sceneName == sceneNameList[1]) //if in Hangar
         { 
-            if (Direction == CameraState.normal) //if facing forward (towards level select)
+            if (Direction == CameraState.reverse) //if facing backwards (towards level select)
             {
                 enableButton(levelSelectButton);
                 disableButton(mechUpgradeButton);
                 disableButton(deckDoorButton);
                 disableButton(shopDoorButton);
             }
-            if (Direction == CameraState.reverse) //if facing reverse (towards Mech Upgrade)
+            if (Direction == CameraState.normal) //if facing forward (towards Mech Upgrade)
             {
                 disableButton(levelSelectButton);
                 enableButton(mechUpgradeButton);
                 disableButton(deckDoorButton);
                 disableButton(shopDoorButton);
             }
-            if (Direction == CameraState.right) //if facing right (towards Deck Build)
+            if (Direction == CameraState.left) //if facing left (towards Deck Build)
             {
                 disableButton(levelSelectButton);
                 disableButton(mechUpgradeButton);
                 enableButton(deckDoorButton);
                 disableButton(shopDoorButton);
             }
-            if (Direction == CameraState.left) //if facing left (towards Shop)
+            if (Direction == CameraState.right) //if facing right (towards Shop)
             {
                 disableButton(levelSelectButton);
                 disableButton(mechUpgradeButton);
@@ -285,6 +285,7 @@ public class CameraControl : MonoBehaviour
             else if (Direction == CameraState.left) { turnUp = false; turnDown = false; turnLeft = true; turnRight = true; }
             else if (Direction == CameraState.right) { turnUp = false; turnDown = false; turnLeft = true; turnRight = true; }
             else if (Direction == CameraState.normal) { turnUp = true; turnDown = true; turnLeft = true; turnRight = true; }
+            else if (Direction == CameraState.reverse) { turnUp = true; turnDown = true; turnLeft = true; turnRight = true; }
         }
     }
 
