@@ -31,9 +31,13 @@ public class MechUpgradeManager : MonoBehaviour
 
     [SerializeField] private List<int> cardEffectValueList; //these are the values for the effects of each card, so if damage is 5 then that should be 5 at the index for that card here
 
+    public enum CardEffectType { damage, energy, health }
+    public CardEffectType effectType;
+
 
     [Header("UI Setup")]
     public List<GameObject> UICardObjectList;
+    public List<Sprite> UICardSprites;
     [SerializeField] private GameObject SortCards;
     //data stored for button press
 
@@ -42,6 +46,7 @@ public class MechUpgradeManager : MonoBehaviour
     [SerializeField] private Color LegsColor;
 
     [SerializeField] private Color tempcolor;
+    [SerializeField] private Sprite tempsprite;
     [SerializeField] private Image tempimage;
     [SerializeField] private GameObject temp;
     [SerializeField] private int index;
@@ -135,6 +140,33 @@ public class MechUpgradeManager : MonoBehaviour
         }
     }
 
+    Sprite GetSprite(string card) //grab the sprite data for the card and update it when rendering the cards
+    {
+
+        index = fullmechDeckList.IndexOf(card);
+        effectType = GetEffect(fullmechDeckList[index]);
+
+        switch (effectType)
+        {
+            case CardEffectType.damage:
+                return UICardSprites[0];
+            case CardEffectType.energy:
+                return UICardSprites[1];
+            case CardEffectType.health:
+                return UICardSprites[2];
+            default:
+                return UICardSprites[0];
+        }
+    }
+
+    CardEffectType GetEffect(string card)
+    {
+        if(card.Contains("Damage")) { return CardEffectType.damage; }
+        if(card.Contains("Energy")) { return CardEffectType.energy; }
+        if(card.Contains("Health")) { return CardEffectType.health; }
+        else {  return CardEffectType.damage; }
+    }
+
     void DisplayCards() //display cards in the card slots of ui
     {
         int unlockNum = mechDeckList.Count; //grab how many cards are in inventory
@@ -151,8 +183,10 @@ public class MechUpgradeManager : MonoBehaviour
             tempTransform = UICardObjectList[i].GetComponent<Transform>(); //grab transform of card slot
             temp = tempTransform.gameObject;
             tempimage = temp.GetComponent<Image>();
-            tempcolor = GetColor(cardName);
-            tempimage.color = tempcolor;
+            tempsprite = GetSprite(cardName);
+            //tempcolor = GetColor(cardName);
+            //tempimage.color = tempcolor;
+            tempimage.sprite = tempsprite;
 
             //SET NAME
             temp = tempTransform.GetChild(0).gameObject; //grab the child of card slot
@@ -241,6 +275,7 @@ public class MechUpgradeManager : MonoBehaviour
                     lastButton.SetActive(false);
 
                     UpdateButtonText(upHeadButton, card);
+                    UpdateButtonSprite(upHeadButton, card);
 
                     DetermineValue(card, SlotType);
                     UpdateInventoryData();
@@ -254,6 +289,7 @@ public class MechUpgradeManager : MonoBehaviour
                     lastButton.SetActive(false);
 
                     UpdateButtonText(upHeadButton, card);
+                    UpdateButtonSprite(upHeadButton, card);
 
                     DetermineValue(card, SlotType);
                     UpdateInventoryData();
@@ -267,6 +303,9 @@ public class MechUpgradeManager : MonoBehaviour
 
                     UpdateButtonText(upArmsButton, card);
                     UpdateButtonText(downArmsButton, card);
+
+                    UpdateButtonSprite(upArmsButton, card);
+                    UpdateButtonSprite(downArmsButton, card);
 
                     DetermineValue(card, SlotType);
                     UpdateInventoryData();
@@ -282,6 +321,9 @@ public class MechUpgradeManager : MonoBehaviour
                     UpdateButtonText(upArmsButton, card);
                     UpdateButtonText(downArmsButton, card);
 
+                    UpdateButtonSprite(upArmsButton, card);
+                    UpdateButtonSprite(downArmsButton, card);
+
                     DetermineValue(card, SlotType);
                     UpdateInventoryData();
                 }
@@ -293,6 +335,7 @@ public class MechUpgradeManager : MonoBehaviour
                     lastButton.SetActive(false);
 
                     UpdateButtonText(downLegsButton, card);
+                    UpdateButtonSprite(downLegsButton, card);
 
                     DetermineValue(card, SlotType);
                     UpdateInventoryData();
@@ -306,6 +349,7 @@ public class MechUpgradeManager : MonoBehaviour
                     lastButton.SetActive(false);
 
                     UpdateButtonText(downLegsButton, card);
+                    UpdateButtonSprite(downLegsButton, card);
 
                     DetermineValue(card, SlotType);
                     UpdateInventoryData();
@@ -321,6 +365,15 @@ public class MechUpgradeManager : MonoBehaviour
         GameObject textObject = button.transform.GetChild(0).gameObject;
         TextMeshProUGUI textMesh = textObject.GetComponent<TextMeshProUGUI>();
         textMesh.text = text;
+    }
+
+    void UpdateButtonSprite(GameObject button, string card)
+    {
+        Image buttonImage = button.GetComponent<Image>();
+        tempsprite = GetSprite(card);
+        buttonImage.sprite = tempsprite;
+        if(tempsprite == null) { buttonImage.color = GetColor(card); }
+        else { buttonImage.color =  Color.white; }
     }
 
     private IEnumerator WaitForUpdate() //waits for X time to record last button press so it doesnt instantly update
