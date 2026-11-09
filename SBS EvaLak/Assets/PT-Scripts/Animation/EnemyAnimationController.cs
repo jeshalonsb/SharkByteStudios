@@ -11,6 +11,6 @@ public class EnemyAnimationController : MonoBehaviour
 
     public void SetHurt()
     {
-        animator.SetBool("isHurt", true);
+        animator.SetBool("IsHurt", true);
     }
 }

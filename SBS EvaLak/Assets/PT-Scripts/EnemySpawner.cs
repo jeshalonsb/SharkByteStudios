@@ -25,16 +25,13 @@ public class EnemySpawner : MonoBehaviour
                 SpawnEnemy(1);
                 break;
             case "Robot Planet":
-                SpawnEnemy(2);
+                SpawnEnemy(3);
                 break;
             case "Round Planet":
-                SpawnEnemy(0);
+                SpawnEnemy(2);
                 break;
             case "Undead Planet":
-                //SpawnEnemy(3);
-
-                //there is no undead enemy model so ill just reuse the default
-                SpawnEnemy(Random.Range(0, enemyPrefabs.Count));
+                SpawnEnemy(0);
                 break;
             default: //if cant find planet info
                 SpawnEnemy(Random.Range(0, enemyPrefabs.Count));

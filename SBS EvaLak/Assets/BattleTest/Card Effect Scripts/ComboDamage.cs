@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ComboDamage : CardEffect
 {
+    private EnemyAnimationController enemyAnimation;
     public int damage = 50;
 
     public bool useDamageRange = false;
@@ -10,6 +11,11 @@ public class ComboDamage : CardEffect
 
     private float temporaryHealth;
     public bool targetPlayer;
+
+    public void OnEnable()
+    {
+        enemyAnimation = GameObject.FindWithTag("EnemyPrefab").GetComponent<EnemyAnimationController>();
+    }
 
     public override void Activate()
     {
@@ -34,6 +40,8 @@ public class ComboDamage : CardEffect
             temporaryHealth -= finalDamage * mod.damageMult * comboMult;
 
             enemyHP.health = Mathf.RoundToInt(temporaryHealth);
+
+            enemyAnimation.SetHurt();
         }
         if (targetPlayer) //if targeting the player (enemy)
         {

@@ -1050,6 +1050,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 458291813b8c3784b9f3c456bd473462, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1760127109576153557}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 458291813b8c3784b9f3c456bd473462, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1624015462414332465}
   m_SourcePrefab: {fileID: 100100000, guid: 458291813b8c3784b9f3c456bd473462, type: 3}
 --- !u!4 &4884244280535817086 stripped
 Transform:
@@ -1093,6 +1096,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   enemyMaxHealth: 750
   enemyHP: {fileID: 0}
+--- !u!114 &1624015462414332465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5225163921381540292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5028a27cfab86c94f8b0838186052725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationController
 --- !u!1001 &5431145808106862029
 PrefabInstance:
   m_ObjectHideFlags: 0

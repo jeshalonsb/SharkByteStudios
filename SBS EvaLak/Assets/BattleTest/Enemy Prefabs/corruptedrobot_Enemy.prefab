@@ -1121,6 +1121,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b3c5bf8cdb1da0649967260e622692c6, type: 3}
       insertIndex: -1
       addedObject: {fileID: -6239265726410507951}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b3c5bf8cdb1da0649967260e622692c6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 714677095907272286}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b3c5bf8cdb1da0649967260e622692c6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5805651766010678364}
   m_SourcePrefab: {fileID: 100100000, guid: b3c5bf8cdb1da0649967260e622692c6, type: 3}
 --- !u!4 &5006985262263870243 stripped
 Transform:
@@ -1164,6 +1170,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   enemyMaxHealth: 750
   enemyHP: {fileID: 0}
+--- !u!95 &714677095907272286
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5636169437941528985}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: b3c5bf8cdb1da0649967260e622692c6, type: 3}
+  m_Controller: {fileID: 9100000, guid: bac3f169ebdda074280ad170d2377cca, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5805651766010678364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5636169437941528985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5028a27cfab86c94f8b0838186052725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationController
 --- !u!1001 &5036724297295321086
 PrefabInstance:
   m_ObjectHideFlags: 0
