@@ -95,7 +95,7 @@ public class MechUpgradeManager : MonoBehaviour
         GetCards();
         GetInventoryData();
         DisplayCards();
-        
+
         UpdateStatUI();
     }
 
@@ -119,18 +119,18 @@ public class MechUpgradeManager : MonoBehaviour
         }
 
         foreach (GameObject CardSlot in UICardObjectList) //set them all inactive ...
-        { 
+        {
             CardSlot.SetActive(false);
         }
     }
 
     Color GetColor(string card) //grab the color data for the card and update it when rendering the cards, this can also be where the sprite is updated in future
     {
-        
+
         index = fullmechDeckList.IndexOf(card);
         type = mechCardType[index];
 
-        switch(type)
+        switch (type)
         {
             case CardType.head:
                 return HeadColor;
@@ -149,25 +149,36 @@ public class MechUpgradeManager : MonoBehaviour
         index = fullmechDeckList.IndexOf(card);
         effectType = GetEffect(fullmechDeckList[index]);
 
-        switch (effectType)
+        //switch (effectType)
+        //{
+        //    case CardEffectType.damage:
+        //        return UICardSprites[0];
+        //    case CardEffectType.energy:
+        //        return UICardSprites[1];
+        //    case CardEffectType.health:
+        //        return UICardSprites[2];
+        //    default:
+        //        return UICardSprites[0];
+        //}
+
+        if (inventory.fullmechDeckList.Contains(card))
         {
-            case CardEffectType.damage:
-                return UICardSprites[0];
-            case CardEffectType.energy:
-                return UICardSprites[1];
-            case CardEffectType.health:
-                return UICardSprites[2];
-            default:
-                return UICardSprites[0];
+            int index = inventory.fullmechDeckList.IndexOf(card);
+            return UICardSprites[index];
+        }
+
+        else
+        {
+            return null;
         }
     }
 
     CardEffectType GetEffect(string card)
     {
-        if(card.Contains("Damage")) { return CardEffectType.damage; }
-        if(card.Contains("Energy")) { return CardEffectType.energy; }
-        if(card.Contains("Health")) { return CardEffectType.health; }
-        else {  return CardEffectType.damage; }
+        if (card.Contains("Damage")) { return CardEffectType.damage; }
+        if (card.Contains("Energy")) { return CardEffectType.energy; }
+        if (card.Contains("Health")) { return CardEffectType.health; }
+        else { return CardEffectType.damage; }
     }
 
     void DisplayCards() //display cards in the card slots of ui
@@ -181,7 +192,7 @@ public class MechUpgradeManager : MonoBehaviour
         for (int i = 0; i < unlockNum; i++) //for each card unlocked, set it to game object and set the card slot to active
         {
             cardName = mechDeckList[i]; //set the text on the card to be the card name
-            
+
             //SET COLOR
             tempTransform = UICardObjectList[i].GetComponent<Transform>(); //grab transform of card slot
             temp = tempTransform.gameObject;
@@ -216,7 +227,7 @@ public class MechUpgradeManager : MonoBehaviour
         Transform tempTransform;
         tempTransform = currentButton.GetComponent<Transform>();
         temp = tempTransform.GetChild(0).gameObject;
-        cardNameText = temp.GetComponent<TextMeshProUGUI>(); 
+        cardNameText = temp.GetComponent<TextMeshProUGUI>();
 
         cardName = cardNameText.text; //get card name
 
@@ -245,7 +256,7 @@ public class MechUpgradeManager : MonoBehaviour
         if (currentButton == upArmsButton || currentButton == downArmsButton) { SlotType = CardType.arms; }
         if (currentButton == downLegsButton) { SlotType = CardType.legs; }
 
-        if(UICardObjectList.Contains(lastButton)) //if last button pressed was a card slot, check info
+        if (UICardObjectList.Contains(lastButton)) //if last button pressed was a card slot, check info
         {
             temp = lastButton.transform.GetChild(0).gameObject;
             cardNameText = temp.GetComponent<TextMeshProUGUI>();
@@ -254,7 +265,7 @@ public class MechUpgradeManager : MonoBehaviour
             index = fullmechDeckList.IndexOf(cardName);
             type = mechCardType[index];
 
-            if(type == SlotType) //if types are correct
+            if (type == SlotType) //if types are correct
             {
                 AddCard(cardName);
             }
@@ -272,7 +283,7 @@ public class MechUpgradeManager : MonoBehaviour
     public void AddCard(string card) //add card to mech
     {
         //add the card if it works
-        switch(SlotType)
+        switch (SlotType)
         {
             case CardType.head:
                 if (HeadCardSlot == "") //if nothing saved in card slot
@@ -378,8 +389,8 @@ public class MechUpgradeManager : MonoBehaviour
         Image buttonImage = button.GetComponent<Image>();
         tempsprite = GetSprite(card);
         buttonImage.sprite = tempsprite;
-        if(tempsprite == null) { buttonImage.color = GetColor(card); }
-        else { buttonImage.color =  Color.white; }
+        if (tempsprite == null) { buttonImage.color = GetColor(card); }
+        else { buttonImage.color = Color.white; }
     }
 
     private IEnumerator WaitForUpdate() //waits for X time to record last button press so it doesnt instantly update
@@ -393,25 +404,25 @@ public class MechUpgradeManager : MonoBehaviour
     {
         index = fullmechDeckList.IndexOf(card);
         int cardValue = cardEffectValueList[index];
-        if(cardEffectList[index] != "") { cardEffect = cardEffectList[index]; } //if card effect is found for that card, save it
+        if (cardEffectList[index] != "") { cardEffect = cardEffectList[index]; } //if card effect is found for that card, save it
 
-            switch (slot)
-            {
-                case CardType.head:
-                    HeadCardSlotValue = cardValue;
-                    if (cardEffect != "") { specialEffect1 = cardEffect; }
+        switch (slot)
+        {
+            case CardType.head:
+                HeadCardSlotValue = cardValue;
+                if (cardEffect != "") { specialEffect1 = cardEffect; }
                 break;
-                case CardType.arms:
-                    ArmsCardSlotValue = cardValue;
-                    if (cardEffect != "") { specialEffect2 = cardEffect; }
-                    break;
-                case CardType.legs:
-                    LegsCardSlotValue = cardValue;
-                    if (cardEffect != "") { specialEffect3 = cardEffect; }
-                    break;
-                default:
-                    break;
-            }
+            case CardType.arms:
+                ArmsCardSlotValue = cardValue;
+                if (cardEffect != "") { specialEffect2 = cardEffect; }
+                break;
+            case CardType.legs:
+                LegsCardSlotValue = cardValue;
+                if (cardEffect != "") { specialEffect3 = cardEffect; }
+                break;
+            default:
+                break;
+        }
     }
 
     private string UpdateTextData(string card)
@@ -440,7 +451,7 @@ public class MechUpgradeManager : MonoBehaviour
             else if (slot == 2) { LegsCardSlot = "LegsEnergy"; }
             else { Debug.Log("Error no Data."); }
         }
-        else if (card.Contains("damage")) 
+        else if (card.Contains("damage"))
         {
             if (slot == 0) { HeadCardSlot = "HeadDamage"; }
             else if (slot == 1) { ArmsCardSlot = "ArmsDamage"; }
@@ -455,7 +466,7 @@ public class MechUpgradeManager : MonoBehaviour
         inventory.ArmsCardSlot = UpdateTextData(ArmsCardSlot);
         inventory.LegsCardSlot = UpdateTextData(LegsCardSlot);
 
-        cardEffectsActive = new List<string> { specialEffect1, specialEffect2, specialEffect3};
+        cardEffectsActive = new List<string> { specialEffect1, specialEffect2, specialEffect3 };
         inventory.cardEffectsActiveList = cardEffectsActive; //list of active effects from the cards in the mech upgrade script, to send to inventory
 
         inventory.HeadCardSlotValue = HeadCardSlotValue; //int of value in each slot
@@ -492,7 +503,7 @@ public class MechUpgradeManager : MonoBehaviour
         if (inventory.LegsCardSlot != "") { OpenTextData(inventory.LegsCardSlot, 2); UpdateButtonText(downLegsButton, LegsCardSlot); UpdateButtonSprite(downLegsButton, LegsCardSlot); }
 
         //Hide Mech cards in use
-        if (fullmechDeckList.Contains(HeadCardSlot)) { index = fullmechDeckList.IndexOf(HeadCardSlot); temp = UICardObjectList[index]; temp.SetActive(false); } 
+        if (fullmechDeckList.Contains(HeadCardSlot)) { index = fullmechDeckList.IndexOf(HeadCardSlot); temp = UICardObjectList[index]; temp.SetActive(false); }
         if (fullmechDeckList.Contains(ArmsCardSlot)) { index = fullmechDeckList.IndexOf(ArmsCardSlot); temp = UICardObjectList[index]; temp.SetActive(false); }
         if (fullmechDeckList.Contains(LegsCardSlot)) { index = fullmechDeckList.IndexOf(LegsCardSlot); temp = UICardObjectList[index]; temp.SetActive(false); }
     }
@@ -506,11 +517,11 @@ public class MechUpgradeManager : MonoBehaviour
         //HEALTH
         stat = 500;
         if (HeadCardSlot.Contains("Health")) { addStat = IntPercentage(HeadCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
-        if(ArmsCardSlot.Contains("Health")) { addStat = IntPercentage(ArmsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
-        if(LegsCardSlot.Contains("Health")) { addStat = IntPercentage(LegsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
+        if (ArmsCardSlot.Contains("Health")) { addStat = IntPercentage(ArmsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
+        if (LegsCardSlot.Contains("Health")) { addStat = IntPercentage(LegsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
 
         HealthStatText.text = ($"{stat}");
-        if(stat - 500 != 0) { HealthStatTextIncrease.text = ($"+{stat - 500}"); }
+        if (stat - 500 != 0) { HealthStatTextIncrease.text = ($"+{stat - 500}"); }
         else { HealthStatTextIncrease.text = (""); }
 
         //DAMAGE
@@ -520,14 +531,14 @@ public class MechUpgradeManager : MonoBehaviour
         if (LegsCardSlot.Contains("Damage")) { addStat = IntPercentage(LegsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
 
         DamageStatText.text = ($"x{stat}");
-        if(stat - 1 !=0) { DamageStatTextIncrease.text = ($"+{stat - 1}"); }
+        if (stat - 1 != 0) { DamageStatTextIncrease.text = ($"+{stat - 1}"); }
         else { DamageStatTextIncrease.text = (""); }
 
         //ENERGY
         stat = 5;
-        if (HeadCardSlot.Contains("Energy")) { stat +=1; }
-        if (ArmsCardSlot.Contains("Energy")) { stat +=1; }
-        if (LegsCardSlot.Contains("Energy")) { stat +=1; }
+        if (HeadCardSlot.Contains("Energy")) { stat += 1; }
+        if (ArmsCardSlot.Contains("Energy")) { stat += 1; }
+        if (LegsCardSlot.Contains("Energy")) { stat += 1; }
 
         EnergyStatText.text = ($"{stat}");
         if (stat - 5 != 0) { EnergyStatTextIncrease.text = ($"+{stat - 5}"); }
@@ -561,7 +572,7 @@ public class MechUpgradeManager : MonoBehaviour
 
         if (SortCards == null) { SortCards = GameObject.Find("SortCards"); }
 
-        if (DamageStatText == null) 
+        if (DamageStatText == null)
         {
             GameObject tempObject = GameObject.Find("DamageStat");
             DamageStatText = tempObject.GetComponent<TextMeshProUGUI>();

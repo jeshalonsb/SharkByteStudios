@@ -1723,9 +1723,16 @@ MonoBehaviour:
   effectType: 0
   UICardObjectList: []
   UICardSprites:
-  - {fileID: 21300000, guid: 4794b6f6fb1925b40ae73e343805a50d, type: 3}
+  - {fileID: 21300000, guid: 1bef39015ceaac04d8e745c7d843707e, type: 3}
+  - {fileID: 21300000, guid: 63c6bce6ffe754a4fb70ff5c62299c18, type: 3}
+  - {fileID: 21300000, guid: 8b5b7243437600c409a11a5e1c5c8a3f, type: 3}
+  - {fileID: 21300000, guid: 93cde16ffa9754d4c8753e074bab784c, type: 3}
+  - {fileID: 21300000, guid: b43914f5a0c8f9a468c7e6bb46e2152f, type: 3}
+  - {fileID: 21300000, guid: b77654f25a25b2b4f95471f6079199b1, type: 3}
+  - {fileID: 21300000, guid: 63fe91ca377f3ed4ab84a7fc47a503e6, type: 3}
+  - {fileID: 21300000, guid: 410aba33f3d7f9f469ffd48cb93e3a21, type: 3}
+  - {fileID: 21300000, guid: ce9cea386c193ff4d9ba4fecfb84ce92, type: 3}
   - {fileID: 21300000, guid: 07c71d6b6c0ed1b4c9f4384028c0b650, type: 3}
-  - {fileID: 21300000, guid: 39e169eed85443d42be7b48f195b1e9d, type: 3}
   SortCards: {fileID: 0}
   HeadColor: {r: 1, g: 0.3066038, b: 0.3066038, a: 1}
   ArmsColor: {r: 0.4669811, g: 0.54014057, b: 1, a: 1}

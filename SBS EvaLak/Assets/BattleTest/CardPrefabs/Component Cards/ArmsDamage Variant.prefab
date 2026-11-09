@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4373343066113290000, guid: 6c0d393e661ab15489247b1567bb0f8f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b43914f5a0c8f9a468c7e6bb46e2152f, type: 3}
     - target: {fileID: 6498899736033635448, guid: 6c0d393e661ab15489247b1567bb0f8f, type: 3}
       propertyPath: m_text
       value: 'Damage Component

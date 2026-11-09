@@ -206,10 +206,10 @@ public class EnemyManager : MonoBehaviour
 
         SendCard(card);
 
-        //if (card.TryGetComponent(out Damage damage))
-        //{
-        //    animationController.SetHurt();
-        //}
+        if (card.TryGetComponent(out Damage damage) || card.TryGetComponent(out ComboDamage combo))
+        {
+            animationController.SetHurt();
+        }
     }
 
     public void SendCard(Card card)

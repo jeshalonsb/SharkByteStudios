@@ -731,6 +731,8 @@ GameObject:
   - component: {fileID: 5409435471310181865}
   - component: {fileID: 458799176945858877}
   - component: {fileID: -3829328884691847265}
+  - component: {fileID: 5654264351749740302}
+  - component: {fileID: 8099620399760537195}
   m_Layer: 0
   m_Name: EnemyDeck_TestEnemy
   m_TagString: EnemyPrefab
@@ -810,6 +812,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   enemyMaxHealth: 750
   enemyHP: {fileID: 0}
+--- !u!95 &5654264351749740302
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785190150474628448}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 86c1eb9960e98ed4a89f1da071c54397, type: 3}
+  m_Controller: {fileID: 9100000, guid: 2f4ad6b83b3471549b6c41e0a4209ef9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8099620399760537195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785190150474628448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5028a27cfab86c94f8b0838186052725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationController
 --- !u!1 &7519742246638742682
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,9 +1050,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8590059269991333494}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9883965, z: -0, w: 0.1518956}
-  m_LocalPosition: {x: 6.66, y: -1.87, z: 0}
-  m_LocalScale: {x: 2.2936425, y: 2.2936425, z: 2.2936425}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: 2.82, y: 1.998, z: -5.4012}
+  m_LocalScale: {x: 258.034, y: 258.034, z: 258.034}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 246334965458261365}
@@ -1030,7 +1066,7 @@ Transform:
   - {fileID: 3096676488369737797}
   - {fileID: 2111152031697875138}
   m_Father: {fileID: 5409435471310181865}
-  m_LocalEulerAnglesHint: {x: 0, y: -162.526, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 180, z: 0}
 --- !u!1001 &29922642413574999
 PrefabInstance:
   m_ObjectHideFlags: 0

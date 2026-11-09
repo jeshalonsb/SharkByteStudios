@@ -5,6 +5,8 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> enemyPrefabs;
 
+    public Transform spawnPoint;
+
     private GameObject currentEnemy;
 
     private GameObject DDOL;
@@ -23,16 +25,13 @@ public class EnemySpawner : MonoBehaviour
                 SpawnEnemy(1);
                 break;
             case "Robot Planet":
-                SpawnEnemy(2);
+                SpawnEnemy(3);
                 break;
             case "Round Planet":
-                SpawnEnemy(0);
+                SpawnEnemy(2);
                 break;
             case "Undead Planet":
-                //SpawnEnemy(3);
-
-                //there is no undead enemy model so ill just reuse the default
-                SpawnEnemy(Random.Range(0, enemyPrefabs.Count));
+                SpawnEnemy(0);
                 break;
             default: //if cant find planet info
                 SpawnEnemy(Random.Range(0, enemyPrefabs.Count));
@@ -45,5 +44,20 @@ public class EnemySpawner : MonoBehaviour
         if (currentEnemy != null) Destroy(currentEnemy);
 
         currentEnemy = Instantiate(enemyPrefabs[index], transform);
+        currentEnemy.transform.position = spawnPoint.transform.position;
+
+        //Debug.Log("Spawn Point: " + spawnPoint.position);
+        //Debug.Log("Enemy Position: " + currentEnemy.transform.position);
     }
+
+    //public void SpawnEnemy(int index)
+    //{
+    //    if (currentEnemy != null) Destroy(currentEnemy);
+
+    //    enemyPrefabs[index].SetActive(true);
+
+    //    //Debug.Log("Spawn Point: " + spawnPoint.position);
+    //    //Debug.Log("Enemy Position: " + currentEnemy.transform.position);
+    //}
+
 }
