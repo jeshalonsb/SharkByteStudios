@@ -39,25 +39,25 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    //public void SpawnEnemy(int index)
-    //{
-    //    if (currentEnemy != null) Destroy(currentEnemy);
-
-    //    currentEnemy = Instantiate(enemyPrefabs[index], transform);
-    //    currentEnemy.transform.position = spawnPoint.transform.position;
-
-    //    //Debug.Log("Spawn Point: " + spawnPoint.position);
-    //    //Debug.Log("Enemy Position: " + currentEnemy.transform.position);
-    //}
-
     public void SpawnEnemy(int index)
     {
         if (currentEnemy != null) Destroy(currentEnemy);
 
-        enemyPrefabs[index].SetActive(true);
+        currentEnemy = Instantiate(enemyPrefabs[index], transform);
+        currentEnemy.transform.position = spawnPoint.transform.position;
 
         //Debug.Log("Spawn Point: " + spawnPoint.position);
         //Debug.Log("Enemy Position: " + currentEnemy.transform.position);
     }
+
+    //public void SpawnEnemy(int index)
+    //{
+    //    if (currentEnemy != null) Destroy(currentEnemy);
+
+    //    enemyPrefabs[index].SetActive(true);
+
+    //    //Debug.Log("Spawn Point: " + spawnPoint.position);
+    //    //Debug.Log("Enemy Position: " + currentEnemy.transform.position);
+    //}
 
 }
