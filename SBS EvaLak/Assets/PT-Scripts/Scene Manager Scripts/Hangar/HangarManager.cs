@@ -534,7 +534,7 @@ public class HangarManager : MonoBehaviour
     #endregion
     public virtual void ReturnToMainMenu()
     {
-        SceneManager.LoadScene("PT_MainMenu");
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void GoToScene(string sceneName)

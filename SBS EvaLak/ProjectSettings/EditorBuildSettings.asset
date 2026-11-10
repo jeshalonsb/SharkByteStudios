@@ -15,8 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/HangarLevel.unity
     guid: ae3e1c3102ec30f479cdd005e4a60571
   - enabled: 1
-    path: Assets/Scenes/PrototyeScenes/PT_Deck_Build.unity
-    guid: 520c1b2163f3b5347b01f8e970754914
+    path: Assets/Scenes/DeckBuildScene.unity
+    guid: 4b0fd18dc5045ea4490c109c531fc8c4
   - enabled: 1
     path: Assets/Scenes/PrototyeScenes/PT_Shop.unity
     guid: 70102b49611085c4ca42ebfcd9bcb6d7
@@ -41,5 +41,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/PrototyeScenes/PT_Hangar.unity
     guid: d2b41dc3460fac543a5153ada1d4162f
+  - enabled: 0
+    path: Assets/Scenes/PrototyeScenes/PT_Deck_Build.unity
+    guid: 520c1b2163f3b5347b01f8e970754914
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
