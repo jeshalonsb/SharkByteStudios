@@ -7,25 +7,41 @@ namespace TMPro.Examples
 
     public class WarpTextExample : MonoBehaviour
     {
-
+        
         private TMP_Text m_TextComponent;
 
+        [Header("Default Unity Stuff")]
         public AnimationCurve VertexCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(0.25f, 2.0f), new Keyframe(0.5f, 0), new Keyframe(0.75f, 2.0f), new Keyframe(1, 0f));
         public float AngleMultiplier = 1.0f;
         public float SpeedMultiplier = 1.0f;
         public float CurveScale = 1.0f;
 
+        [Header("TypeText Changes")]
+        public bool HasTypeText = false; //check if text needs be typed
+        public bool Finish = true; //is finished typing? 
+        TypeText TypeText;
+        private bool triggered = false;
+
         void Awake()
         {
             m_TextComponent = gameObject.GetComponent<TMP_Text>();
+
+            TypeText = gameObject.GetComponent<TypeText>();
+            if(TypeText != null ) { HasTypeText = true; Finish = TypeText.Finish; }
+            
         }
 
 
         void Start()
         {
-            StartCoroutine(WarpText());
+            if (!HasTypeText) { StartCoroutine(WarpText()); }
         }
 
+        public void WarpFunction()
+        {
+            if(HasTypeText) { Finish = TypeText.Finish; }
+            if(Finish) { StartCoroutine(WarpText()); }
+        }
 
         private AnimationCurve CopyAnimationCurve(AnimationCurve curve)
         {
