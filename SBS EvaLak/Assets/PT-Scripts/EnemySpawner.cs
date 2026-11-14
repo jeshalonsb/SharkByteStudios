@@ -44,7 +44,9 @@ public class EnemySpawner : MonoBehaviour
         if (currentEnemy != null) Destroy(currentEnemy);
 
         currentEnemy = Instantiate(enemyPrefabs[index], transform);
-        currentEnemy.transform.position = spawnPoint.transform.position;
+        //currentEnemy.transform.position = spawnPoint.transform.position;
+
+        currentEnemy.SetActive(true);
 
         //Debug.Log("Spawn Point: " + spawnPoint.position);
         //Debug.Log("Enemy Position: " + currentEnemy.transform.position);
