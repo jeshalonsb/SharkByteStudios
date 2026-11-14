@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using System;
+using TMPro;
 
 public class DDOLBridge : MonoBehaviour
 {
@@ -10,17 +11,21 @@ public class DDOLBridge : MonoBehaviour
     [SerializeField] private Inventory inventory;
 
     [SerializeField] private GameObject addRemoveRef;
-    [SerializeField] private AddRemoveCardScript addRemoveScript;
-    [SerializeField] private ShopCardsShown shopCardsShown;
+    [SerializeField] private AddRemoveCardScript addRemoveScript; //script to add/remove cards
+    [SerializeField] private ShopCardsShown shopCardsShown; //script to shop cards
 
-    public GameObject myButtonGameObject;
-    public Button myButton;
-    [SerializeField] private string cardType;
+    public GameObject myButtonGameObject; //current selected button gameobject
+    public Button myButton; //current selected button
+    [SerializeField] private string cardType; //name of card
+    [SerializeField] TextMeshProUGUI cardTypeText; //tmp on gameobject that stores what card is
 
     [SerializeField] private int rareCost = 2;
     [SerializeField] private int legendaryCost = 4;
 
     private string sceneName;
+
+    [SerializeField] DeckBuilderManager deckBuilderManager;
+
 
     void Start()
     {
@@ -34,7 +39,16 @@ public class DDOLBridge : MonoBehaviour
 
         myButtonGameObject = EventSystem.current.currentSelectedGameObject;
         if (myButtonGameObject == null) { Debug.Log("Unable to find GameObject."); }
-        else { myButton = myButtonGameObject.GetComponent<Button>(); cardType = myButtonGameObject.name; Debug.Log("Selected " + cardType); }
+        else 
+        { 
+            myButton = myButtonGameObject.GetComponent<Button>();
+            Transform tempTransform = myButtonGameObject.GetComponent<Transform>();
+            GameObject temp = tempTransform.GetChild(0).gameObject; //grab the child of card slot
+
+            cardTypeText = temp.GetComponent<TextMeshProUGUI>();
+            cardType = cardTypeText.text;
+            Debug.Log("Selected " + cardType); 
+        }
 
         if (cardType == "") { Debug.Log("No card type found!"); }
 
@@ -46,6 +60,7 @@ public class DDOLBridge : MonoBehaviour
         if (addRemoveScript.isAdd)
         {
             inventory.AddCardByType(cardType);
+            deckBuilderManager.AddCardToDeckUI(cardType);
             return;
         }
         else
@@ -59,9 +74,9 @@ public class DDOLBridge : MonoBehaviour
     {
         //inventory = DDOL.GetComponent<Inventory>();
 
-        myButtonGameObject = EventSystem.current.currentSelectedGameObject;
+        myButtonGameObject = EventSystem.current.currentSelectedGameObject; 
         if (myButtonGameObject == null) { Debug.Log("Unable to find GameObject."); }
-        else { myButton = myButtonGameObject.GetComponent<Button>(); cardType = myButtonGameObject.name; Debug.Log("Selected " + cardType); }
+        else { myButton = myButtonGameObject.GetComponent<Button>(); cardTypeText = myButton.GetComponent<TextMeshProUGUI>(); cardType = cardTypeText.text; Debug.Log("Selected " + cardType); }
 
         if (cardType == "") { Debug.Log("No card type found!"); }
 
@@ -70,45 +85,11 @@ public class DDOLBridge : MonoBehaviour
             Debug.Log("Inventory not found");
             return;
         }
-        switch (cardType)
-        {
-            case "LDamageCard-":
-                if (inventory.totalScrap >= legendaryCost) { UpdateAndUnlock("LDamageCard-2-A"); inventory.RemoveScrap(legendaryCost); }
-
-                break;
-            case "LRepairCard-":
-                if (inventory.totalScrap >= legendaryCost) { UpdateAndUnlock("LRepairCard-2-A"); inventory.RemoveScrap(legendaryCost); }
-                break;
-            case "LBuffMultCard-":
-                if (inventory.totalScrap >= legendaryCost) { UpdateAndUnlock("LBuffMultCard-2"); inventory.RemoveScrap(legendaryCost); }
-                break;
-            case "RDamageCard-":
-                if (inventory.totalScrap >= rareCost) { UpdateAndUnlock("RDamageCard-0-A"); inventory.RemoveScrap(rareCost); }
-                break;
-            case "RRepairCard-":
-                if (inventory.totalScrap >= rareCost) { UpdateAndUnlock("RRepairCard-0-A"); inventory.RemoveScrap(rareCost); }
-                break;
-            case "RBuffMultCard-":
-                if (inventory.totalScrap >= rareCost) { UpdateAndUnlock("RBuffMultCard-0-A"); inventory.RemoveScrap(rareCost); }
-                break;
-            case "RComboCard-":
-                if (inventory.totalScrap >= rareCost) { UpdateAndUnlock("RComboCard-0-A"); inventory.RemoveScrap(rareCost); }
-                break;
-        }
-
-        //if (cardType == "LDamageCard-" || cardType == "LRepairCard-" || cardType == "LBuffMultCard-")
-        //{
-        //    inventory.unlockedDeckList.Add(cardType);
-        //    inventory.UpdateLockedCards();
-        //    shopCardsShown.HideUnlockedCards();
-        //}
-
-        //if (cardType == "RDamageCard-" || cardType == "RRepairCard-" || cardType == "RBuffMultCard-" || cardType == "RComboCard-")
-        //{
-        //    inventory.unlockedDeckList.Add(cardType);
-        //    inventory.UpdateLockedCards();
-        //    shopCardsShown.HideUnlockedCards();
-        //}
+        
+        //if contains text that says its legendary or rare, send the legendary or repair cost
+        if(cardType.Contains("LDamage") || cardType.Contains("LRepair") || cardType.Contains("LBuff") || cardType.Contains("LCombo")) { UpdateAndUnlock(cardType); inventory.RemoveScrap(legendaryCost); }
+        if (cardType.Contains("RDamage") || cardType.Contains("RRepair") || cardType.Contains("RBuff") || cardType.Contains("RCombo")) { UpdateAndUnlock(cardType); inventory.RemoveScrap(rareCost); }
+        //if (cardType.Contains("CDamage") || cardType.Contains("CRepair") || cardType.Contains("CBuff") || cardType.Contains("CCombo")) { UpdateAndUnlock(cardType); inventory.RemoveScrap(1); }
     }
 
     void Init()
@@ -128,12 +109,17 @@ public class DDOLBridge : MonoBehaviour
 
         sceneName = inventory.sceneName;
 
-        if (addRemoveRef == null && sceneName == "PT_Deck_Build")
+        if (addRemoveRef == null && (sceneName == "DeckBuildScene" || sceneName == "PT_Deck_Build"))
         {
             addRemoveRef = GameObject.Find("Add/Remove Cards");
             addRemoveScript = addRemoveRef.GetComponent<AddRemoveCardScript>();
+            if(deckBuilderManager == null) { deckBuilderManager = GetComponent<DeckBuilderManager>();}
         }
 
+        if (shopCardsShown == null && (sceneName == "Shop" || sceneName == "PT_Shop"))
+        {
+            shopCardsShown = GetComponent<ShopCardsShown>();
+        }
     }
 
     private void UpdateAndUnlock(string cardType)

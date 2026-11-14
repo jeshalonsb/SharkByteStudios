@@ -133,6 +133,18 @@ public class Inventory : MonoBehaviour
             return;
         }
 
+        if(fullDeckList.Contains(cardType) && !deckList.Contains(cardType)) 
+        {
+            deckList.Add(cardType);
+
+            //numCardsInDeck.AddCards(cardType);
+
+            Shuffle(deckList);
+
+            return;
+        }
+
+        /*
         //find the next card that hasnt been added
         foreach (string cardName in fullDeckList)
         {
@@ -152,6 +164,7 @@ public class Inventory : MonoBehaviour
                 return;
             }
         }
+        */
     }
 
     public void RemoveCardByType(string cardType)
