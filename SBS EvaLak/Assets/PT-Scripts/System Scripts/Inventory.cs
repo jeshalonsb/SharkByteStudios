@@ -61,6 +61,9 @@ public class Inventory : MonoBehaviour
     public int numCombo = 0;
     public int numRepair = 0;
 
+    public bool endless; //bool for endless mode, for now it just makes waves infinite
+    public int battleCount = 3; //how many battles per wave, default to 3
+    public int battleNum = 0; //how many battles you completed so far
     
     private void Start()
     {
@@ -101,7 +104,7 @@ public class Inventory : MonoBehaviour
 
         UpdateLockedCards();
         duplicateCards = duplicateList.Count;
-
+        if(sceneName == "HangarLevel") { battleNum = 0; }
         if (cardScene) //if scene with cards in it
         {
             //THIS WILL BREAK IF YOU ENTER THE BATTLE FIRST (i think) WE NEED TO MAKE THIS ONLY LOAD ON DECKBUILDER SCENE 
@@ -113,7 +116,7 @@ public class Inventory : MonoBehaviour
             }
 
             if (sceneName == sceneNameList[1] && deckList.Count == 0) { SceneManager.LoadScene("HangarLevel"); } //if enter battle with empty deck, it sends you back to level select
-
+            
             //check to see if deck game objects are in the scene and if they are append them to the list
             cardGameObjectList = new List<GameObject>(); //empty list from what it was filled with in old scenes
             foreach (string name in fullDeckList)
