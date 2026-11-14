@@ -59,12 +59,13 @@ public class DDOLBridge : MonoBehaviour
         }
         if (addRemoveScript.isAdd)
         {
+            if (inventory.fullDeckList.Contains(cardType) && !inventory.deckList.Contains(cardType)) { deckBuilderManager.AddCardToDeckUI(cardType, myButtonGameObject); }
             inventory.AddCardByType(cardType);
-            deckBuilderManager.AddCardToDeckUI(cardType);
             return;
         }
         else
         {
+            if(inventory.deckList.Contains(cardType)) { deckBuilderManager.RemoveCardFromDeckUI(cardType, myButtonGameObject); }
             inventory.RemoveCardByType(cardType);
             return;
         }

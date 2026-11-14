@@ -4,10 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class DeckBuilderManager : MonoBehaviour
 {
@@ -51,6 +53,13 @@ public class DeckBuilderManager : MonoBehaviour
     [SerializeField] private Sprite backsprite;
     [SerializeField] private Color tempcolor;
 
+    [SerializeField] private GameObject TemplateCard; //what cards copy
+    [SerializeField] private GameObject deckArea; //where deck moves to
+    [SerializeField] private List<GameObject> PhysicalInventory;
+    private float moveSpeed = 10f;
+    private float t;
+    private float duration = 1f;
+
     [SerializeField] private int page = 0; //this is the page number, for the scroll, each time you scroll it increases by CardSlot.Count (12)
 
     public void Awake()
@@ -69,6 +78,8 @@ public class DeckBuilderManager : MonoBehaviour
     {
         swipeX = touchManager.SwipeX();
         swipeY = touchManager.SwipeY();
+
+        t = 1f - Mathf.Exp(-moveSpeed * Time.deltaTime);
 
         if (touchManager.clickHeld) { typetext = null; finishedTyping = true; } //skip cutscene if you press
         if (typetext != null) { finishedTyping = typetext.Finish; }
@@ -115,8 +126,10 @@ public class DeckBuilderManager : MonoBehaviour
         }
 
         if(GridParent == null) { GridParent = GameObject.Find("CardLayoutGrid"); }
+        if(TemplateCard == null) { TemplateCard = GameObject.Find("TemplateCard"); }
 
         //Set up DB cards
+        PhysicalInventory = new List<GameObject>();
         UpdateCardUI();
 
     }
@@ -285,9 +298,56 @@ public class DeckBuilderManager : MonoBehaviour
         }
     }
 
-    public void AddCardToDeckUI(string card)
+    public void AddCardToDeckUI(string card, GameObject button)
     {
+        GameObject temp = Instantiate(TemplateCard, deckArea.transform);
+        CardLocation(temp, button.transform.position);
+        PhysicalInventory.Add(temp);
+        //SET SPRITE
+        Transform tempTransform = temp.transform; //grab transform of card slot
+        Image tempimage = temp.GetComponent<Image>();
+        tempsprite = GetSprite(card);
+        tempimage.sprite = tempsprite;
+        tempimage.color = Color.white;
+
+        //SET NAME
+        temp = tempTransform.GetChild(0).gameObject; //grab the child of card slot
+        TextMeshProUGUI cardNameText = temp.GetComponent<TextMeshProUGUI>();
+        cardNameText.text = card;
+        
         DisplayCards();
+    }
+
+    public void CardLocation(GameObject temp, Vector3 position)
+    {
+        temp.transform.position = position;
+        StartCoroutine(MoveCard(temp, deckArea));
+    }
+
+    public IEnumerator MoveCard(GameObject card, GameObject DeckArea)
+    {
+        float elapsedTIme = 0f;
+        Vector3 startPosition = card.transform.position;
+        Vector3 endPosition = DeckArea.transform.position;
+
+        while (elapsedTIme < duration)
+        {
+            float t = elapsedTIme / duration;
+            float smoothT = Mathf.SmoothStep(0f, 1f, t);
+
+            card.transform.position = Vector3.Lerp(startPosition, endPosition, smoothT);
+
+            elapsedTIme += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    public void RemoveCardFromDeckUI(string card, GameObject button)
+    {
+        int listIndex = PhysicalInventory.IndexOf(button);
+        Destroy(PhysicalInventory[listIndex]);
+        PhysicalInventory.RemoveAt(listIndex);
+        
     }
 }
 

@@ -143,28 +143,6 @@ public class Inventory : MonoBehaviour
 
             return;
         }
-
-        /*
-        //find the next card that hasnt been added
-        foreach (string cardName in fullDeckList)
-        {
-            //Debug.Log(cardName.StartsWith(cardType) + " | " + fullDeckList.Contains(cardName));
-
-            //starts with takes the beginning of the name and compares it so we dont have to individually hard code the cards
-            if (cardName.StartsWith(cardType) && fullDeckList.Contains(cardName) && !deckList.Contains(cardName))
-            {
-                deckList.Add(cardName);
-
-                //Debug.Log("Added " + cardName);
-
-                numCardsInDeck.AddCards(cardType);
-
-                Shuffle(deckList);
-
-                return;
-            }
-        }
-        */
     }
 
     public void RemoveCardByType(string cardType)
@@ -175,15 +153,15 @@ public class Inventory : MonoBehaviour
             return;
         }
 
-        foreach (string cardName in fullDeckList)
+        if (fullDeckList.Contains(cardType) && deckList.Contains(cardType))
         {
-            if (cardName.StartsWith(cardType) && fullDeckList.Contains(cardName) && deckList.Contains(cardName))
-            {
-                deckList.Remove(cardName);
-                Shuffle(deckList);
-                numCardsInDeck.RemoveCards(cardType);
-                return;
-            }
+            deckList.Remove(cardType);
+
+            //numCardsInDeck.RemoveCards(cardType);
+
+            Shuffle(deckList);
+
+            return;
         }
     }
 
