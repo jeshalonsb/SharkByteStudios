@@ -163,21 +163,22 @@ public class DeckBuilderManager : MonoBehaviour
 
         for (int i = 0; i < CardSlots.Count; i++) //for each card unlocked, set it to game object and set the card slot to active
         {
-            if ((i + page) > CardSlots.Count || (i + page) < 0) { cardName = "Card Name"; tempsprite = GetSprite(cardName); tempTransform = CardSlots[i].GetComponent<Transform>(); } //if out of range
+            if ((i + page) >= unlockedDeckList.Count) { cardName = "Card Name"; } //if out of range
             else //if in range
             {
                 cardName = unlockedDeckList[i + page]; //set the text on the card to be the card name
-
-                if (deckList.Contains(cardName)) { cardName = "Card Name"; } //if card is in deck, show blank card
-                //SET SPRITE
-                tempTransform = CardSlots[i].GetComponent<Transform>(); //grab transform of card slot
-                temp = tempTransform.gameObject;
-                tempimage = temp.GetComponent<Image>();
-                tempsprite = GetSprite(cardName);
-                tempimage.sprite = tempsprite;
-                tempimage.color = tempcolor;
-                
             }
+
+            if (deckList.Contains(cardName)) { cardName = "Card Name"; } //if card is in deck, show blank card
+
+            //SET SPRITE
+            tempTransform = CardSlots[i].GetComponent<Transform>(); //grab transform of card slot
+            temp = tempTransform.gameObject;
+            tempimage = temp.GetComponent<Image>();
+            tempsprite = GetSprite(cardName);
+            tempimage.sprite = tempsprite;
+            tempimage.color = tempcolor;
+
             //SET NAME
             temp = tempTransform.GetChild(0).gameObject; //grab the child of card slot
             cardNameText = temp.GetComponent<TextMeshProUGUI>();
@@ -271,7 +272,7 @@ public class DeckBuilderManager : MonoBehaviour
         if(swipeY == 1 && (page <= unlockedDeckList.Count)) //if swipe down and the page number is not more than possible cards
         {
             page = page + CardSlots.Count;
-            if (page > unlockedDeckList.Count) { page = unlockedDeckList.Count; }
+            if (page > unlockedDeckList.Count) { float pageNumber = (float)unlockedDeckList.Count / page; page = Mathf.CeilToInt(pageNumber) * unlockedDeckList.Count; }
             DisplayCards();
         }
 
