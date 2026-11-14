@@ -57,7 +57,6 @@ public class DeckBuilderManager : MonoBehaviour
     [SerializeField] private GameObject deckArea; //where deck moves to
     [SerializeField] private List<GameObject> PhysicalInventory;
     private float moveSpeed = 10f;
-    private float t;
     private float duration = 1f;
 
     [SerializeField] private int page = 0; //this is the page number, for the scroll, each time you scroll it increases by CardSlot.Count (12)
@@ -78,8 +77,6 @@ public class DeckBuilderManager : MonoBehaviour
     {
         swipeX = touchManager.SwipeX();
         swipeY = touchManager.SwipeY();
-
-        t = 1f - Mathf.Exp(-moveSpeed * Time.deltaTime);
 
         if (touchManager.clickHeld) { typetext = null; finishedTyping = true; } //skip cutscene if you press
         if (typetext != null) { finishedTyping = typetext.Finish; }
@@ -130,6 +127,7 @@ public class DeckBuilderManager : MonoBehaviour
 
         //Set up DB cards
         PhysicalInventory = new List<GameObject>();
+        LoadInventorytoUI();
         UpdateCardUI();
 
     }
@@ -157,7 +155,7 @@ public class DeckBuilderManager : MonoBehaviour
             CardSlots.Add(temp);
         }
 
-        foreach (GameObject CardSlot in CardSlots) //set them all inactive ...
+        foreach (GameObject CardSlot in CardSlots) //set them all active ...
         {
             CardSlot.SetActive(true);
         }
@@ -295,6 +293,14 @@ public class DeckBuilderManager : MonoBehaviour
             page = page - CardSlots.Count;
             if(page < 0) { page = 0; }
             DisplayCards();
+        }
+    }
+
+    public void LoadInventorytoUI() //for when you return to scene and already have stuff in inventory
+    {
+        foreach(string cardName in deckList)
+        {
+            AddCardToDeckUI(cardName, deckArea);
         }
     }
 
