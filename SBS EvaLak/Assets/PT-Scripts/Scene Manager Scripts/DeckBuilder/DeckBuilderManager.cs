@@ -67,7 +67,7 @@ public class DeckBuilderManager : MonoBehaviour
 
     public void Update()
     {
-        //swipeX = touchManager.SwipeX();
+        swipeX = touchManager.SwipeX();
         swipeY = touchManager.SwipeY();
 
 
@@ -75,6 +75,7 @@ public class DeckBuilderManager : MonoBehaviour
         if(finishedTyping) { Cutscene(); }
 
         DisplayCards();
+        ScrollCards(swipeY);
     }
 
 
@@ -162,7 +163,7 @@ public class DeckBuilderManager : MonoBehaviour
 
         for (int i = 0; i < CardSlots.Count; i++) //for each card unlocked, set it to game object and set the card slot to active
         {
-            if ((i + page) > unlockedDeckList.Count) { cardName = "Card Name"; tempsprite = GetSprite(cardName); tempTransform = CardSlots[i].GetComponent<Transform>(); } //if out of range
+            if ((i + page) > CardSlots.Count || (i + page) < 0) { cardName = "Card Name"; tempsprite = GetSprite(cardName); tempTransform = CardSlots[i].GetComponent<Transform>(); } //if out of range
             else //if in range
             {
                 cardName = unlockedDeckList[i + page]; //set the text on the card to be the card name
@@ -267,15 +268,17 @@ public class DeckBuilderManager : MonoBehaviour
 
     public void ScrollCards(int swipeY)
     {
-        if(swipeY == -1 && !(page > unlockedDeckList.Count)) //if swipe down and the page number is not more than possible cards
+        if(swipeY == 1 && (page <= unlockedDeckList.Count)) //if swipe down and the page number is not more than possible cards
         {
             page = page + CardSlots.Count;
+            if (page > unlockedDeckList.Count) { page = unlockedDeckList.Count; }
             DisplayCards();
         }
 
-        if(swipeY == 1 && !(page < 0)) //if swipe up and the page number is not less than 0
+        if(swipeY == -1 && (page >= 0)) //if swipe up and the page number is not less than 0
         {
             page = page - CardSlots.Count;
+            if(page < 0) { page = 0; }
             DisplayCards();
         }
     }
