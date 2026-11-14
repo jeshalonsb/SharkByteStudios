@@ -70,7 +70,7 @@ public class DeckBuilderManager : MonoBehaviour
         swipeX = touchManager.SwipeX();
         swipeY = touchManager.SwipeY();
 
-
+        if (touchManager.clickHeld) { typetext = null; finishedTyping = true; } //skip cutscene if you press
         if (typetext != null) { finishedTyping = typetext.Finish; }
         if(finishedTyping) { Cutscene(); }
 
@@ -205,6 +205,7 @@ public class DeckBuilderManager : MonoBehaviour
         doOnce = true;
         if (startScreen)
         {
+            if(touchManager.clickHeld) { waitDone = true; }
             //UnloadTextFunction(bootText);
             StartCoroutine(Wait(0.5f)); 
             if (waitDone)
@@ -272,7 +273,7 @@ public class DeckBuilderManager : MonoBehaviour
         if(swipeY == 1 && (page <= unlockedDeckList.Count)) //if swipe down and the page number is not more than possible cards
         {
             page = page + CardSlots.Count;
-            if (page > unlockedDeckList.Count) { float pageNumber = (float)unlockedDeckList.Count / page; page = Mathf.CeilToInt(pageNumber) * unlockedDeckList.Count; }
+            if (page > unlockedDeckList.Count) { float pageNumber = (float)unlockedDeckList.Count / page; page = (Mathf.CeilToInt(pageNumber)) * CardSlots.Count; }
             DisplayCards();
         }
 
