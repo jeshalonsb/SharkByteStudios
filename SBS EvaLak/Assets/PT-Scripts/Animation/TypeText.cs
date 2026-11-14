@@ -40,16 +40,18 @@ public class TypeText : MonoBehaviour
     public IEnumerator Typewrite()
     {
         int charLength = 0;
-        while(currentText != fullText) //if the final text doesnt match the current text, ie you have more to type
+        int charLeft = fullText.Length;
+        while(!Finish) //if the final text doesnt match the current text, ie you have more to type
         {
-            charLength = currentText.Length; //find how many char are typed
-            remainText = fullText.Substring(charLength); //remaining text is calculated by removing the amount of char already typed
-            currentText = currentText + remainText[0]; //current text adds the first char from the remaining text
+            currentText = fullText.Substring(0, charLength); //update text
+            charLeft = fullText.Length - charLength; //measure how many characters left to type
+            if(charLeft > 0) { currentText = currentText.Insert(currentText.Length, new string(' ', charLeft)); } //fill space with empty spaces for warp
             TextBox.text = currentText; //update textbox
+
+            charLength++;
+            if (currentText == fullText) { Finish = true; }
             yield return new WaitForSeconds(delay); //delay before next char typed
         }
-        Finish = true; //if current text matches full text, then it is finished typing
-        if(HasWarp) { WarpText = GetComponent<WarpTextExample>(); WarpText.WarpFunction(); }
     }
 
 }

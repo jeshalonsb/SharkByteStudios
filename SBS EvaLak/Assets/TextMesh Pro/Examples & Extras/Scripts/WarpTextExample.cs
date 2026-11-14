@@ -34,7 +34,8 @@ namespace TMPro.Examples
 
         void Start()
         {
-            if (!HasTypeText) { StartCoroutine(WarpText()); }
+            //if (!HasTypeText) { StartCoroutine(WarpText()); }
+            StartCoroutine(WarpText());
         }
 
         public void WarpFunction()
