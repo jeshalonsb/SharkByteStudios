@@ -57,7 +57,8 @@ public class DeckBuilderManager : MonoBehaviour
     [SerializeField] private GameObject deckArea; //where deck moves to
     [SerializeField] private List<GameObject> PhysicalInventory;
     private float moveSpeed = 10f;
-    private float duration = 1f;
+    private float dragduration = 1f;
+    private float swipeduration = 0.5f;
 
     [SerializeField] private int page = 0; //this is the page number, for the scroll, each time you scroll it increases by CardSlot.Count (12)
 
@@ -299,6 +300,10 @@ public class DeckBuilderManager : MonoBehaviour
         {
             int childCount = deckArea.transform.childCount; //count how many children in deck area
             GameObject topCard = deckArea.transform.GetChild(childCount - 1).gameObject; //get the top card
+
+            Vector3 offset = new Vector3(swipeX * 9, 0, 0); //animate the swipe
+            CardLocation(topCard, deckArea.transform.position + offset, swipeduration);
+
             topCard.transform.SetAsFirstSibling(); //move it to the back
 
             PhysicalInventory.RemoveAt(childCount - 1); //to move it to the corresponding index in the list we delete it and insert it at beginning
@@ -317,7 +322,7 @@ public class DeckBuilderManager : MonoBehaviour
     public void AddCardToDeckUI(string card, GameObject button)
     {
         GameObject temp = Instantiate(TemplateCard, deckArea.transform);
-        CardLocation(temp, button.transform.position);
+        CardLocation(temp, button.transform.position, dragduration);
         PhysicalInventory.Add(temp);
         //SET SPRITE
         Transform tempTransform = temp.transform; //grab transform of card slot
@@ -334,13 +339,13 @@ public class DeckBuilderManager : MonoBehaviour
         DisplayCards();
     }
 
-    public void CardLocation(GameObject temp, Vector3 position)
+    public void CardLocation(GameObject temp, Vector3 position, float duration)
     {
         temp.transform.position = position;
-        StartCoroutine(MoveCard(temp, deckArea));
+        StartCoroutine(MoveCard(temp, deckArea, duration));
     }
 
-    public IEnumerator MoveCard(GameObject card, GameObject DeckArea)
+    public IEnumerator MoveCard(GameObject card, GameObject DeckArea, float duration)
     {
         float elapsedTIme = 0f;
         Vector3 startPosition = card.transform.position;
