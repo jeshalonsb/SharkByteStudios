@@ -83,7 +83,7 @@ public class DeckBuilderManager : MonoBehaviour
         if(finishedTyping) { Cutscene(); }
 
         DisplayCards();
-        ScrollCards(swipeY);
+        ScrollCards();
     }
 
 
@@ -279,7 +279,7 @@ public class DeckBuilderManager : MonoBehaviour
         waitDone = true;
     }
 
-    public void ScrollCards(int swipeY)
+    public void ScrollCards()
     {
         if(swipeY == 1 && (page <= unlockedDeckList.Count)) //if swipe down and the page number is not more than possible cards
         {
@@ -293,6 +293,16 @@ public class DeckBuilderManager : MonoBehaviour
             page = page - CardSlots.Count;
             if(page < 0) { page = 0; }
             DisplayCards();
+        }
+
+        if((swipeX == 1 || swipeX == -1) && PhysicalInventory.Count > 0) //if swipe left or right, and physical inventory has cards
+        {
+            int childCount = deckArea.transform.childCount; //count how many children in deck area
+            GameObject topCard = deckArea.transform.GetChild(childCount - 1).gameObject; //get the top card
+            topCard.transform.SetAsFirstSibling(); //move it to the back
+
+            PhysicalInventory.RemoveAt(childCount - 1); //to move it to the corresponding index in the list we delete it and insert it at beginning
+            PhysicalInventory.Insert(0, topCard);
         }
     }
 
