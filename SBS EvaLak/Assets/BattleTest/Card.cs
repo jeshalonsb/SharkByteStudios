@@ -83,6 +83,8 @@ public class Card : MonoBehaviour
     // Runs every effect on this card, in the order they appear on the prefab
     public void OnPlay()
     {
+        if (selectionBorder != null)
+            selectionBorder.SetActive(false);
         if (playSound != null)
             AudioSource.PlayClipAtPoint(playSound, Camera.main.transform.position, soundVolume);
 
