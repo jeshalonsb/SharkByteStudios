@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -97,11 +98,15 @@ public class DDOLBridge : MonoBehaviour
             Debug.Log("Inventory not found");
             return;
         }
-        
+
         //if contains text that says its legendary or rare, send the legendary or repair cost
-        if(cardType.Contains("LDamage") || cardType.Contains("LRepair") || cardType.Contains("LBuff") || cardType.Contains("LCombo")) { UpdateAndUnlock(cardType); inventory.RemoveScrap(legendaryCost); }
-        if (cardType.Contains("RDamage") || cardType.Contains("RRepair") || cardType.Contains("RBuff") || cardType.Contains("RCombo")) { UpdateAndUnlock(cardType); inventory.RemoveScrap(rareCost); }
-        //if (cardType.Contains("CDamage") || cardType.Contains("CRepair") || cardType.Contains("CBuff") || cardType.Contains("CCombo")) { UpdateAndUnlock(cardType); inventory.RemoveScrap(1); }
+        int cost;
+        if(cardType.Contains("LDamage") || cardType.Contains("LRepair") || cardType.Contains("LBuff") || cardType.Contains("LCombo")) { cost = legendaryCost; }
+        else if (cardType.Contains("RDamage") || cardType.Contains("RRepair") || cardType.Contains("RBuff") || cardType.Contains("RCombo")) { cost = rareCost; }
+        else if (cardType.Contains("CDamage") || cardType.Contains("CRepair") || cardType.Contains("CBuff") || cardType.Contains("CCombo")) { cost = 1; }
+        else { cost = 0; }
+
+        if (inventory.totalScrap >= cost) { UpdateAndUnlock(cardType); inventory.RemoveScrap(cost); }
     }
 
     public void ScrapCard()
@@ -178,14 +183,14 @@ public class DDOLBridge : MonoBehaviour
         {
             foreach (var card in inventory.duplicateList)
             {
-                ScrapCard(card);
+                ScrapSpecificCard(card);
             }
         }
         inventory.duplicateList = new List<string>(); //empty list afterwards
         shopManager.UpdateCardData();
     }
 
-    public void ScrapCard(string card) //for if we want buttons that individually remove specific cards, or also is called by scrap all cards to remove them all
+    public void ScrapSpecificCard(string card) //for if we want buttons that individually remove specific cards, or also is called by scrap all cards to remove them all
     {
         int index, scrapValue;
         if (inventory.fullDeckList.Contains(card)) //check to see if string is real card
@@ -200,5 +205,10 @@ public class DDOLBridge : MonoBehaviour
             shopManager.scrapValueText = inventory.totalScrap;
             shopManager.duplicatesText = inventory.duplicateList.Count;
         }
+    }
+
+    public void DebugAdd(int scrap)
+    {
+        inventory.AddScrap(scrap);
     }
 }

@@ -25,7 +25,7 @@ public class ShopManager : MonoBehaviour
     public List<string> lockedCards; //list of full deck minus the unlocked cards
     public List<string> duplicateCards;
     public int totalScrap;
-    //public List<int> scrapValueList;
+    public bool DebugOn = true; //later add debug in pause menu to access this and trigger this true/false
 
     [Header("Touch Controls")]
     public int swipeX; //-1 = left, 0 default, 1 = right 
@@ -51,6 +51,7 @@ public class ShopManager : MonoBehaviour
     [Header("On Screen")]
     [SerializeField] private GameObject quitButton;
     [SerializeField] private GameObject modeButton;
+    [SerializeField] private GameObject debugButton;
 
     [SerializeField] bool doOnce = false;
     [SerializeField] bool waitDone = false;
@@ -346,6 +347,7 @@ public class ShopManager : MonoBehaviour
 
         scrapScreen.SetActive(ScrapActive);
         shopScreen.SetActive(ShopActive);
+        if (ScrapActive || ShopActive) { debugButton.SetActive(DebugOn); }
     }
 
     public IEnumerator Wait(float delay)
