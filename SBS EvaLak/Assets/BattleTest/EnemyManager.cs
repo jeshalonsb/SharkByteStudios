@@ -48,7 +48,7 @@ public class EnemyManager : MonoBehaviour
     {
         PlayerHP = GameObject.FindWithTag("Player").GetComponent<Healthbar>();
         playerHealthMax = PlayerHP.maxHealth;
-        animationController = GameObject.Find("main_mech_rigged").GetComponent<AnimationController>();
+        animationController = GameObject.FindWithTag("Player Mech").GetComponent<AnimationController>();
         enemyHP = GameObject.FindWithTag("Enemy").GetComponent<Healthbar>();
         enemyHealthMax = enemyHP.maxHealth;
     }
@@ -198,7 +198,7 @@ public class EnemyManager : MonoBehaviour
 
     public IEnumerator PlayCards(Card card)
     {
-        yield return new WaitForSeconds(playDelay);
+        //yield return new WaitForSeconds(playDelay);
         enemyPlayArea.Add(card);
 
         // Wait for the card to arrive in the play area
