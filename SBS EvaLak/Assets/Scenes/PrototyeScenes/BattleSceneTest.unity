@@ -1588,14 +1588,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a7a2bacbe2849f543998c7a282f072ba, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Player Mech
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: a7a2bacbe2849f543998c7a282f072ba, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 20539a22449b7614bb3b1098652bc9b1, type: 2}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 65702495048144492, guid: a7a2bacbe2849f543998c7a282f072ba, type: 3}
+    - {fileID: -8700617353114198275, guid: a7a2bacbe2849f543998c7a282f072ba, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a7a2bacbe2849f543998c7a282f072ba, type: 3}
@@ -3449,6 +3451,12 @@ MonoBehaviour:
   fadeSpeed: 1
   isFading: 0
   isBlack: 1
+  endless: 0
+  inventory: {fileID: 0}
+  battleNum: 0
+  battleCount: 0
+  continueButton: {fileID: 0}
+  returnButton: {fileID: 0}
 --- !u!4 &1070031746
 Transform:
   m_ObjectHideFlags: 0

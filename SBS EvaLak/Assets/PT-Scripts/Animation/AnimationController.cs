@@ -13,4 +13,9 @@ public class AnimationController : MonoBehaviour
     {
         animator.SetBool("isHurt", true);
     }
+
+    public void SetAttack()
+    {
+        animator.SetBool("isAttack", true);
+    }
 }
