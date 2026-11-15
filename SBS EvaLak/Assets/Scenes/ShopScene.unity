@@ -10148,8 +10148,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DeckBuilderManager, Assembly-CSharp
+      - m_Target: {fileID: 931474919}
+        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
         m_MethodName: HangarReturn
         m_Mode: 1
         m_Arguments:
