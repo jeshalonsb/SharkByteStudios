@@ -181,9 +181,9 @@ public class Inventory : MonoBehaviour
             shuffleDeck[n] = temp;
         }
     }
-    public void AddScrap()
+    public void AddScrap(int totalScrapAdd)
     {
-        totalScrap += 4;
+        totalScrap += totalScrapAdd;
     }
     public void RemoveScrap(int totalScrapRemove)
     {

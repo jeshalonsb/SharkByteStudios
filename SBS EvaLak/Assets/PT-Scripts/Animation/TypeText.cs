@@ -23,7 +23,7 @@ public class TypeText : MonoBehaviour
     [SerializeField] bool HasWarp;
     private WarpTextExample WarpText;
 
-    private void Start()
+    private void Awake()
     {
         Init();
         StartCoroutine(Typewrite());

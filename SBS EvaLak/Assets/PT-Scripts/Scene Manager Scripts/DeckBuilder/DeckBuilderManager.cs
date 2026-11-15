@@ -39,7 +39,7 @@ public class DeckBuilderManager : MonoBehaviour
     [Header("DB Screen")]
     [SerializeField] private bool DBActive = false; //if full normal db is up (place where we do stuff)
     [SerializeField] private bool dbLoad = false; //if load screen
-    [SerializeField] private GameObject loadDBScene;
+    //[SerializeField] private GameObject loadDBScene;
     [SerializeField] private GameObject dbScreen;
     [SerializeField] private GameObject quitButton;
 
@@ -104,7 +104,7 @@ public class DeckBuilderManager : MonoBehaviour
         if (typetext == null) { bootText.GetComponent<TypeText>(); }
 
         if(quitButton == null) { quitButton = GameObject.Find("ReturnToHangar"); }
-        if (loadDBScene == null) { loadDBScene = GameObject.Find("LoadDB"); }
+        //if (loadDBScene == null) { loadDBScene = GameObject.Find("LoadDB"); }
         if (dbScreen == null) { dbScreen = GameObject.Find("OnScreen"); }
 
         if (inventory == null)
@@ -224,25 +224,15 @@ public class DeckBuilderManager : MonoBehaviour
             {
                 bootText.SetActive(false);
 
-                dbLoad = true;
                 waitDone = false;
+                DBActive = true;
             }
-        }
-
-        if (dbLoad) 
-        { 
-            startScreen = false;
-
-            loadDBScene.SetActive(true);
-            //Animation to move from text to sprites
-            loadDBScene.SetActive(false);
-
-            DBActive = true; 
         }
 
         if (DBActive)
         {
             dbLoad = false;
+            startScreen = false;
             quitButton.SetActive(true);
             dbScreen.SetActive(true);
             DisplayCards();
