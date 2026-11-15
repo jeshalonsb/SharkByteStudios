@@ -171,6 +171,6 @@ public class ShopCardsShown : MonoBehaviour
 
     public void AddScrap()
     {
-        inventory.AddScrap();
+        inventory.AddScrap(0);
     }
 }
