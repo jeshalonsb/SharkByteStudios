@@ -3,6 +3,8 @@ using UnityEngine;
 public class Damage : CardEffect
 {
     private EnemyAnimationController enemyAnimation;
+
+    private AnimationController playerAnimation;
     public int damage = 50;
 
     public bool targetPlayer;
@@ -12,11 +14,6 @@ public class Damage : CardEffect
     public int maxDamage = 75;
 
     private float temporaryHealth;
-
-    public void OnEnable()
-    {
-        enemyAnimation = GameObject.FindWithTag("EnemyPrefab").GetComponent<EnemyAnimationController>();
-    }
     public override void Activate()
     {
         PlayModifiers mod = GameObject.FindWithTag("Modifiers").GetComponent<PlayModifiers>();
@@ -46,13 +43,37 @@ public class Damage : CardEffect
             temporaryHealth -= finalDamage * mod.damageMult;
             mod.damageMult = mod.basedamageMult;
             mod.combo = 0;
-            enemyAnimation.SetHurt();
+            PlayerAttackAnim();
         }
         else
         {
             temporaryHealth -= finalDamage;
+            EnemyAttackAnim();
         }
 
         HP.health = Mathf.RoundToInt(temporaryHealth);
+    }
+
+    private void PlayerAttackAnim()
+    {
+        if (playerAnimation == null)
+            playerAnimation = GameObject.FindWithTag("Player Mech").GetComponent<AnimationController>();
+
+        if (enemyAnimation == null)
+            enemyAnimation = GameObject.FindWithTag("EnemyPrefab").GetComponent<EnemyAnimationController>();
+
+        enemyAnimation.SetHurt();
+        playerAnimation.SetAttack();
+    }
+
+    private void EnemyAttackAnim()
+    {
+        if (playerAnimation == null)
+            playerAnimation = GameObject.FindWithTag("Player Mech").GetComponent<AnimationController>();
+
+        if (enemyAnimation == null)
+            enemyAnimation = GameObject.FindWithTag("EnemyPrefab").GetComponent<EnemyAnimationController>();
+
+        enemyAnimation.SetAttack();
     }
 }

@@ -525,13 +525,15 @@ public class MechUpgradeManager : MonoBehaviour
         else { HealthStatTextIncrease.text = (""); }
 
         //DAMAGE
-        stat = 1;
-        if (HeadCardSlot.Contains("Damage")) { addStat = IntPercentage(HeadCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
-        if (ArmsCardSlot.Contains("Damage")) { addStat = IntPercentage(ArmsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
-        if (LegsCardSlot.Contains("Damage")) { addStat = IntPercentage(LegsCardSlotValue); addStat = (addStat * stat); stat = Mathf.RoundToInt(addStat); }
+        stat = 1; float floatStat = 1;
+        if (HeadCardSlot.Contains("Damage")) { addStat = IntPercentage(HeadCardSlotValue); floatStat = (addStat * floatStat); stat = Mathf.RoundToInt(addStat); }
+        if (ArmsCardSlot.Contains("Damage")) { addStat = IntPercentage(ArmsCardSlotValue); floatStat = (addStat * floatStat); stat = Mathf.RoundToInt(addStat); }
+        if (LegsCardSlot.Contains("Damage")) { addStat = IntPercentage(LegsCardSlotValue); floatStat = (addStat * floatStat); stat = Mathf.RoundToInt(addStat); }
 
-        DamageStatText.text = ($"x{stat}");
-        if (stat - 1 != 0) { DamageStatTextIncrease.text = ($"+{stat - 1}"); }
+        DamageStatText.text = ($"x{floatStat}");
+        float diffFloat = (floatStat - 1);
+        diffFloat = (float)System.Math.Round(diffFloat, 2);
+        if (floatStat - 1 != 0) { DamageStatTextIncrease.text = ($"+{diffFloat}"); }
         else { DamageStatTextIncrease.text = (""); }
 
         //ENERGY

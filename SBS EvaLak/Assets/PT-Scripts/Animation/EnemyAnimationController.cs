@@ -13,4 +13,9 @@ public class EnemyAnimationController : MonoBehaviour
     {
         animator.SetBool("IsHurt", true);
     }
+
+    public void SetAttack()
+    {
+        animator.SetBool("IsAttack", true);
+    }
 }
