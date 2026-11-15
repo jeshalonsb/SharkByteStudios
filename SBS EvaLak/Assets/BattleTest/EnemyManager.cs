@@ -62,7 +62,8 @@ public class EnemyManager : MonoBehaviour
     public void AttackRoutine()
     {
         UpdateCards();
-
+        //in this if statement, put && !Attack (or whatever your bool is called) and elsewhere calculate that that bool is true until all attack animations are done
+        //in your calculations for that attack bool, you need to know HOW MANY DAMAGE CARDS the player has when play, then wait to see for that number of iterations for the attack animation before the bool is false again
         if (cards.Count > 0) //if enemy deck has more than zero cards
         {
             //here im leaving this so we can change this to a switch statement with different ai that is chosen on conditions, maybe the ai will get smarter if health is lower?
@@ -197,6 +198,7 @@ public class EnemyManager : MonoBehaviour
 
     public IEnumerator PlayCards(Card card)
     {
+        yield return new WaitForSeconds(playDelay);
         enemyPlayArea.Add(card);
 
         // Wait for the card to arrive in the play area
@@ -243,5 +245,4 @@ public class EnemyManager : MonoBehaviour
             enemyDeck.Add(card);
         }
     }
-
 }

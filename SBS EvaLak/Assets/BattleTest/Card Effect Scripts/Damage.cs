@@ -54,6 +54,7 @@ public class Damage : CardEffect
         HP.health = Mathf.RoundToInt(temporaryHealth);
     }
 
+    //move these to the enemy manager, and then you can just calculate there
     private void PlayerAttackAnim()
     {
         if (playerAnimation == null)
