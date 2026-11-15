@@ -7,6 +7,8 @@ using UnityEngine.XR;
 public class EnemyManager : MonoBehaviour
 {
     private CardZone enemyDeck;
+    private EnemyAnimationController enemyAnimation;
+    private AnimationController playerAnimation;
     [SerializeField] private CardZone enemyHand;
     [SerializeField] private CardZone enemyPlayArea;
     [SerializeField] private CardZone enemyGraveyard;
@@ -48,7 +50,7 @@ public class EnemyManager : MonoBehaviour
     {
         PlayerHP = GameObject.FindWithTag("Player").GetComponent<Healthbar>();
         playerHealthMax = PlayerHP.maxHealth;
-        animationController = GameObject.Find("main_mech_rigged").GetComponent<AnimationController>();
+        animationController = GameObject.FindWithTag("Player Mech").GetComponent<AnimationController>();
         enemyHP = GameObject.FindWithTag("Enemy").GetComponent<Healthbar>();
         enemyHealthMax = enemyHP.maxHealth;
     }
@@ -244,5 +246,49 @@ public class EnemyManager : MonoBehaviour
         {
             enemyDeck.Add(card);
         }
+    }
+
+    public int GetTotalAttacks(List<Card> playedCards)
+    {
+        int count = 0;
+
+        for (int i = 0; i < playedCards.Count; i++)
+        {
+            if (playedCards[i] == null) { continue; }
+
+            if (playedCards[i].TryGetComponent(out Damage damage) || playedCards[i].TryGetComponent(out ComboDamage combo))
+            {
+                count++;
+            }
+        }
+
+        if (count > 3) { count = 3; }
+
+        Debug.Log(count);
+
+        return count;
+    }
+
+    public void PlayerAttackAnim()
+    {
+        if (playerAnimation == null)
+            playerAnimation = GameObject.FindWithTag("Player Mech").GetComponent<AnimationController>();
+
+        if (enemyAnimation == null)
+            enemyAnimation = GameObject.FindWithTag("EnemyPrefab").GetComponent<EnemyAnimationController>();
+
+        enemyAnimation.SetHurt();
+        playerAnimation.SetAttack();
+    }
+
+    public void EnemyAttackAnim()
+    {
+        if (playerAnimation == null)
+            playerAnimation = GameObject.FindWithTag("Player Mech").GetComponent<AnimationController>();
+
+        if (enemyAnimation == null)
+            enemyAnimation = GameObject.FindWithTag("EnemyPrefab").GetComponent<EnemyAnimationController>();
+
+        enemyAnimation.SetAttack();
     }
 }

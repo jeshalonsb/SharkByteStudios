@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class Damage : CardEffect
 {
-    private EnemyAnimationController enemyAnimation;
-
-    private AnimationController playerAnimation;
+    private EnemyManager enemyManager;
     public int damage = 50;
 
     public bool targetPlayer;
@@ -14,6 +12,11 @@ public class Damage : CardEffect
     public int maxDamage = 75;
 
     private float temporaryHealth;
+
+    public void Start()
+    {
+        enemyManager = GameObject.FindWithTag("Enemy Manager").GetComponent<EnemyManager>();
+    }
     public override void Activate()
     {
         PlayModifiers mod = GameObject.FindWithTag("Modifiers").GetComponent<PlayModifiers>();
@@ -43,38 +46,14 @@ public class Damage : CardEffect
             temporaryHealth -= finalDamage * mod.damageMult;
             mod.damageMult = mod.basedamageMult;
             mod.combo = 0;
-            PlayerAttackAnim();
+            enemyManager.PlayerAttackAnim();
         }
         else
         {
             temporaryHealth -= finalDamage;
-            EnemyAttackAnim();
+            enemyManager.EnemyAttackAnim();
         }
 
         HP.health = Mathf.RoundToInt(temporaryHealth);
-    }
-
-    //move these to the enemy manager, and then you can just calculate there
-    private void PlayerAttackAnim()
-    {
-        if (playerAnimation == null)
-            playerAnimation = GameObject.FindWithTag("Player Mech").GetComponent<AnimationController>();
-
-        if (enemyAnimation == null)
-            enemyAnimation = GameObject.FindWithTag("EnemyPrefab").GetComponent<EnemyAnimationController>();
-
-        enemyAnimation.SetHurt();
-        playerAnimation.SetAttack();
-    }
-
-    private void EnemyAttackAnim()
-    {
-        if (playerAnimation == null)
-            playerAnimation = GameObject.FindWithTag("Player Mech").GetComponent<AnimationController>();
-
-        if (enemyAnimation == null)
-            enemyAnimation = GameObject.FindWithTag("EnemyPrefab").GetComponent<EnemyAnimationController>();
-
-        enemyAnimation.SetAttack();
     }
 }

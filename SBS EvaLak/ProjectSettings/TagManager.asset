@@ -8,6 +8,7 @@ TagManager:
   - Modifiers
   - EnemyPrefab
   - Player Mech
+  - Enemy Manager
   layers:
   - Default
   - TransparentFX

@@ -15,6 +15,8 @@ public class Deck : MonoBehaviour
     [SerializeField] private TextMeshPro remainingCardsText;
     [SerializeField] private float playDelay = 1f;
     [SerializeField] private float cardPlayInterval = 0.5f;
+
+    [SerializeField] private float checkCardsInterval = 0.25f;
     [SerializeField] private int numDiscards;
 
     public bool isPlaying;
@@ -46,8 +48,10 @@ public class Deck : MonoBehaviour
 
     public void Discard()
     {
-        if(numDiscards >= 1) //you cant just infinitely discard
-            {return;}
+        Debug.Log("Discard");
+
+        if (numDiscards >= 1) //you cant just infinitely discard
+        { return; }
 
         foreach (Card card in hand.GetSelected())
             graveyard.Add(card);
@@ -57,18 +61,28 @@ public class Deck : MonoBehaviour
         numDiscards++;
     }
 
-    public void Play() 
+    public void Play()
     {
         if (!isPlaying) StartCoroutine(PlayRoutine());
     }
 
     private IEnumerator PlayRoutine()
     {
+        isPlaying = true;
+        if (enemyManager == null)
+        {
+            Debug.Log("NotFound");
+            enemyManager = FindAnyObjectByType<EnemyManager>();
+        }
+
         // Selected cards move to the play area, keeping their left to right order
         List<Card> playedCards = hand.GetSelected();
         if (playedCards.Count == 0) yield break;
 
-        isPlaying = true;
+        int tmp = enemyManager.GetTotalAttacks(playedCards);
+
+        yield return new WaitForSeconds(checkCardsInterval); //if the add card runs too quickly, the GetTotalAttacks function will break and crash because of zones being moved
+
         foreach (Card card in playedCards)
             playArea.Add(card);
 
@@ -103,7 +117,7 @@ public class Deck : MonoBehaviour
     private void RefillDeck()
     {
         //refills the deck from the graveyard, then hand size is drawn again
-        foreach(Card card in graveyard.GetAllCards())
+        foreach (Card card in graveyard.GetAllCards())
         {
             drawPile.Add(card);
         }
