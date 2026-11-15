@@ -227,6 +227,7 @@ public class ShopManager : MonoBehaviour
             cardNameText.text = cardName;
         }
 
+        //SCRAP
         cardName = ""; //text string of card
         cardNameText = null; //tmp of card
 
@@ -236,10 +237,10 @@ public class ShopManager : MonoBehaviour
 
         for (int i = 0; i < ScrapSlots.Count; i++) //for each card unlocked, set it to game object and set the card slot to active
         {
-            if ((i + page) >= unlockedDeckList.Count) { cardName = "Card Name"; } //if out of range
+            if ((i + page) >= duplicateCards.Count) { cardName = "Card Name"; } //if out of range
             else //if in range
             {
-                cardName = lockedCards[i + page]; //set the text on the card to be the card name
+                cardName = duplicateCards[i + page]; //set the text on the card to be the card name
             }
 
             //if (deckList.Contains(cardName)) { cardName = "Card Name"; } //if card is in deck, show blank card
