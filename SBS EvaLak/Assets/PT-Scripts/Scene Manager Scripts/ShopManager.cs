@@ -42,6 +42,12 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private TypeText typetext;
     bool startScreen = true; //turns false when unloaded, is start screen on
 
+    [Header("Loading Screen")]
+    [SerializeField] private bool finishedTyping2 = false;
+    [SerializeField] private GameObject loadingText;
+    [SerializeField] private TypeText typetext2;
+    bool loadingScreen = false; 
+
     [Header("On Screen")]
     [SerializeField] private GameObject quitButton;
     [SerializeField] private GameObject modeButton;
@@ -94,8 +100,12 @@ public class ShopManager : MonoBehaviour
         swipeX = touchManager.SwipeX();
         swipeY = touchManager.SwipeY();
 
-        if (touchManager.clickHeld) { typetext = null; finishedTyping = true; } //skip cutscene if you press
+        if (touchManager.clickHeld && startScreen) { typetext = null; finishedTyping = true; } //skip cutscene if you press
         if (typetext != null) { finishedTyping = typetext.Finish; }
+
+        if (touchManager.clickHeld && loadingScreen) { typetext2 = null; finishedTyping2 = true; } //skip cutscene if you press
+        if (typetext2 != null) { finishedTyping2 = typetext2.Finish; }
+
         if (finishedTyping) { Cutscene(); }
 
         UpdateCardData();
@@ -118,6 +128,9 @@ public class ShopManager : MonoBehaviour
     {
         if (bootText == null) { bootText = GameObject.Find("ScreenBootUpText"); }
         if (typetext == null) { bootText.GetComponent<TypeText>(); }
+
+        if (loadingText == null) { loadingText = GameObject.Find("ScreenConsoleText"); }
+        if (typetext2 == null) { loadingText.GetComponent<TypeText>(); }
 
         if (quitButton == null) { quitButton = GameObject.Find("ReturnToHangar"); }
         if (modeButton == null) { modeButton = GameObject.Find("Shop/Scrap"); }
@@ -286,6 +299,22 @@ public class ShopManager : MonoBehaviour
             {
                 bootText.SetActive(false);
 
+                loadingScreen = true;
+                waitDone = false;
+            }
+        }
+
+        if (loadingScreen)
+        {
+            startScreen = false;
+            loadingText.SetActive(true);
+            if (touchManager.clickHeld) { waitDone = true; finishedTyping2 = true; }
+            //UnloadTextFunction(bootText);
+            StartCoroutine(Wait(0.5f));
+            if (finishedTyping2)
+            {
+                loadingText.SetActive(false);
+
                 ShopActive = true;
                 waitDone = false;
             }
@@ -295,6 +324,7 @@ public class ShopManager : MonoBehaviour
         {
             ScrapActive = false;
             startScreen = false;
+            loadingScreen = false;
 
             onScreen.SetActive(true);
             quitButton.SetActive(true);
@@ -306,6 +336,7 @@ public class ShopManager : MonoBehaviour
         {
             ShopActive = false;
             startScreen = false;
+            loadingScreen = false;
 
             onScreen.SetActive(true);
             quitButton.SetActive(true);
