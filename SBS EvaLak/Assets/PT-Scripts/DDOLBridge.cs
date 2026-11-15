@@ -1,9 +1,10 @@
+using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using System;
-using TMPro;
+using UnityEngine.UI;
 
 public class DDOLBridge : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class DDOLBridge : MonoBehaviour
 
     [SerializeField] private GameObject addRemoveRef;
     [SerializeField] private AddRemoveCardScript addRemoveScript; //script to add/remove cards
-    [SerializeField] private ShopCardsShown shopCardsShown; //script to shop cards
 
     public GameObject myButtonGameObject; //current selected button gameobject
     public Button myButton; //current selected button
@@ -25,6 +25,7 @@ public class DDOLBridge : MonoBehaviour
     private string sceneName;
 
     [SerializeField] DeckBuilderManager deckBuilderManager;
+    [SerializeField] ShopManager shopManager;
 
 
     void Start()
@@ -57,6 +58,7 @@ public class DDOLBridge : MonoBehaviour
             Debug.Log("Inventory not found");
             return;
         }
+
         if (addRemoveScript.isAdd)
         {
             if (inventory.fullDeckList.Contains(cardType) && !inventory.deckList.Contains(cardType)) { deckBuilderManager.AddCardToDeckUI(cardType, myButtonGameObject); }
@@ -77,7 +79,16 @@ public class DDOLBridge : MonoBehaviour
 
         myButtonGameObject = EventSystem.current.currentSelectedGameObject; 
         if (myButtonGameObject == null) { Debug.Log("Unable to find GameObject."); }
-        else { myButton = myButtonGameObject.GetComponent<Button>(); cardTypeText = myButton.GetComponent<TextMeshProUGUI>(); cardType = cardTypeText.text; Debug.Log("Selected " + cardType); }
+        else 
+        {
+            myButton = myButtonGameObject.GetComponent<Button>();
+            Transform tempTransform = myButtonGameObject.GetComponent<Transform>();
+            GameObject temp = tempTransform.GetChild(0).gameObject; //grab the child of card slot
+
+            cardTypeText = temp.GetComponent<TextMeshProUGUI>();
+            cardType = cardTypeText.text;
+            Debug.Log("Selected " + cardType);
+        }
 
         if (cardType == "") { Debug.Log("No card type found!"); }
 
@@ -91,6 +102,37 @@ public class DDOLBridge : MonoBehaviour
         if(cardType.Contains("LDamage") || cardType.Contains("LRepair") || cardType.Contains("LBuff") || cardType.Contains("LCombo")) { UpdateAndUnlock(cardType); inventory.RemoveScrap(legendaryCost); }
         if (cardType.Contains("RDamage") || cardType.Contains("RRepair") || cardType.Contains("RBuff") || cardType.Contains("RCombo")) { UpdateAndUnlock(cardType); inventory.RemoveScrap(rareCost); }
         //if (cardType.Contains("CDamage") || cardType.Contains("CRepair") || cardType.Contains("CBuff") || cardType.Contains("CCombo")) { UpdateAndUnlock(cardType); inventory.RemoveScrap(1); }
+    }
+
+    public void ScrapCard()
+    {
+        //inventory = DDOL.GetComponent<Inventory>();
+
+        myButtonGameObject = EventSystem.current.currentSelectedGameObject;
+        if (myButtonGameObject == null) { Debug.Log("Unable to find GameObject."); }
+        else
+        {
+            myButton = myButtonGameObject.GetComponent<Button>();
+            Transform tempTransform = myButtonGameObject.GetComponent<Transform>();
+            GameObject temp = tempTransform.GetChild(0).gameObject; //grab the child of card slot
+
+            cardTypeText = temp.GetComponent<TextMeshProUGUI>();
+            cardType = cardTypeText.text;
+            Debug.Log("Selected " + cardType);
+        }
+
+        if (cardType == "") { Debug.Log("No card type found!"); }
+
+        if (inventory == null)
+        {
+            Debug.Log("Inventory not found");
+            return;
+        }
+
+        //if contains text that says its legendary or rare, send the legendary or repair cost
+        if (cardType.Contains("LDamage") || cardType.Contains("LRepair") || cardType.Contains("LBuff") || cardType.Contains("LCombo")) { UpdateAndUnlock(cardType); inventory.AddScrap(legendaryCost); }
+        if (cardType.Contains("RDamage") || cardType.Contains("RRepair") || cardType.Contains("RBuff") || cardType.Contains("RCombo")) { UpdateAndUnlock(cardType); inventory.AddScrap(rareCost); }
+        if (cardType.Contains("CDamage") || cardType.Contains("CRepair") || cardType.Contains("CBuff") || cardType.Contains("CCombo")) { UpdateAndUnlock(cardType); inventory.AddScrap(1); }
     }
 
     void Init()
@@ -117,9 +159,9 @@ public class DDOLBridge : MonoBehaviour
             if(deckBuilderManager == null) { deckBuilderManager = GetComponent<DeckBuilderManager>();}
         }
 
-        if (shopCardsShown == null && (sceneName == "Shop" || sceneName == "PT_Shop"))
+        if (shopManager == null && (sceneName == "Shop" || sceneName == "PT_Shop"))
         {
-            shopCardsShown = GetComponent<ShopCardsShown>();
+            shopManager = GetComponent<ShopManager>();
         }
     }
 
@@ -127,6 +169,36 @@ public class DDOLBridge : MonoBehaviour
     {
         inventory.unlockedDeckList.Add(cardType);
         inventory.UpdateLockedCards();
-        shopCardsShown.HideUnlockedCards();
+        //shopCardsShown.HideUnlockedCards();
+    }
+
+    public void ScrapAllCards() //for button to remove all dupe cards at once to turn to scrap
+    {
+        if (inventory.duplicateList.Count > 0)
+        {
+            foreach (var card in inventory.duplicateList)
+            {
+                ScrapCard(card);
+            }
+        }
+        inventory.duplicateList = new List<string>(); //empty list afterwards
+        shopManager.UpdateCardData();
+    }
+
+    public void ScrapCard(string card) //for if we want buttons that individually remove specific cards, or also is called by scrap all cards to remove them all
+    {
+        int index, scrapValue;
+        if (inventory.fullDeckList.Contains(card)) //check to see if string is real card
+        {
+            index = inventory.fullDeckList.IndexOf(card); //get index of card
+
+            if (cardType.Contains("LDamage") || cardType.Contains("LRepair") || cardType.Contains("LBuff") || cardType.Contains("LCombo")) { scrapValue = legendaryCost; }
+            if (cardType.Contains("RDamage") || cardType.Contains("RRepair") || cardType.Contains("RBuff") || cardType.Contains("RCombo")) { scrapValue = rareCost; }
+            if (cardType.Contains("CDamage") || cardType.Contains("CRepair") || cardType.Contains("CBuff") || cardType.Contains("CCombo")) { scrapValue = 1; }
+            else { scrapValue = 0; }
+            inventory.AddScrap(scrapValue);
+            shopManager.scrapValueText = inventory.totalScrap;
+            shopManager.duplicatesText = inventory.duplicateList.Count;
+        }
     }
 }
