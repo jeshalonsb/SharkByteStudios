@@ -26,6 +26,14 @@ public class Deck : MonoBehaviour
         enemyManager = FindAnyObjectByType<EnemyManager>(); // find enemy after it is spawned
     }
 
+    public void Update()
+    {
+        //if (!isPlaying)
+        //{
+        //    enemyManager.ResetAnimationSpeed();
+        //}
+    }
+
     public void DrawCards(int count)
     {
         for (int i = 0; i < count; i++)
@@ -61,6 +69,7 @@ public class Deck : MonoBehaviour
         numDiscards++;
     }
 
+
     public void Play()
     {
         if (!isPlaying) StartCoroutine(PlayRoutine());
@@ -79,7 +88,9 @@ public class Deck : MonoBehaviour
         List<Card> playedCards = hand.GetSelected();
         if (playedCards.Count == 0) yield break;
 
-        int tmp = enemyManager.GetTotalAttacks(playedCards);
+        List<Card> copyPlayedCards = new List<Card>(playedCards);
+        int tmp = GetTotalAttacks(copyPlayedCards);
+        enemyManager.SetAnimationSpeed(tmp);
 
         yield return new WaitForSeconds(checkCardsInterval); //if the add card runs too quickly, the GetTotalAttacks function will break and crash because of zones being moved
 
@@ -106,6 +117,8 @@ public class Deck : MonoBehaviour
         numDiscards = 0;
 
         isPlaying = false;
+
+        enemyManager.ResetAnimationSpeed();
     }
 
     // Draw cards until the hand size is reached
@@ -121,5 +134,26 @@ public class Deck : MonoBehaviour
         {
             drawPile.Add(card);
         }
+    }
+
+    private int GetTotalAttacks(List<Card> playedCards)
+    {
+        int count = 0;
+
+        for (int i = 0; i < playedCards.Count; i++)
+        {
+            if (playedCards[i] == null) { continue; }
+
+            if (playedCards[i].TryGetComponent(out Damage damage) || playedCards[i].TryGetComponent(out ComboDamage combo))
+            {
+                count++;
+            }
+        }
+
+        if (count > 3) { count = 3; }
+
+        //Debug.Log(count);
+
+        return count;
     }
 }
