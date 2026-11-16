@@ -7,6 +7,14 @@ using UnityEngine.XR;
 public class EnemyManager : MonoBehaviour
 {
     private CardZone enemyDeck;
+    private EnemyAnimationController enemyAnimation;
+    private AnimationController playerAnimation;
+
+    private Animator playerAnimator;
+
+    private Animator enemyAnimator;
+
+    private int animatorSpeed;
     [SerializeField] private CardZone enemyHand;
     [SerializeField] private CardZone enemyPlayArea;
     [SerializeField] private CardZone enemyGraveyard;
@@ -244,5 +252,100 @@ public class EnemyManager : MonoBehaviour
         {
             enemyDeck.Add(card);
         }
+    }
+
+    public int GetTotalAttacks(List<Card> playedCards)
+    {
+        int count = 0;
+
+        for (int i = 0; i < playedCards.Count; i++)
+        {
+            if (playedCards[i] == null) { continue; }
+
+            if (playedCards[i].TryGetComponent(out Damage damage) || playedCards[i].TryGetComponent(out ComboDamage combo))
+            {
+                count++;
+            }
+        }
+
+        if (count > 3) { count = 3; }
+
+        Debug.Log(count);
+
+        return count;
+    }
+
+    public void SetAnimationSpeed(int speed)
+    {
+        if (playerAnimator == null)
+            playerAnimator = GameObject.FindWithTag("Player Mech").GetComponent<Animator>();
+
+        if (enemyAnimator == null)
+            enemyAnimator = GameObject.FindWithTag("EnemyPrefab").GetComponent<Animator>();
+
+        if (speed == 0)
+        {
+            animatorSpeed = 1;
+        }
+
+        else if (speed == 1)
+        {
+            animatorSpeed = 1;
+        }
+
+        else if (speed == 2)
+        {
+            animatorSpeed = 3;
+        }
+
+        else if (speed == 3)
+        {
+            animatorSpeed = 3;
+        }
+
+        else
+        {
+            animatorSpeed = 1;
+        }
+
+        Debug.Log(animatorSpeed);
+
+        playerAnimator.speed = animatorSpeed;
+        enemyAnimator.speed = animatorSpeed;
+    }
+
+    public void ResetAnimationSpeed()
+    {
+        if (playerAnimator == null)
+            playerAnimator = GameObject.FindWithTag("Player Mech").GetComponent<Animator>();
+
+        if (enemyAnimator == null)
+            enemyAnimator = GameObject.FindWithTag("EnemyPrefab").GetComponent<Animator>();
+
+        playerAnimator.speed = 1;
+        enemyAnimator.speed = 1;
+    }
+
+    public void PlayerAttackAnim()
+    {
+        if (playerAnimation == null)
+            playerAnimation = GameObject.FindWithTag("Player Mech").GetComponent<AnimationController>();
+
+        if (enemyAnimation == null)
+            enemyAnimation = GameObject.FindWithTag("EnemyPrefab").GetComponent<EnemyAnimationController>();
+
+        enemyAnimation.SetHurt();
+        playerAnimation.SetAttack();
+    }
+
+    public void EnemyAttackAnim()
+    {
+        if (playerAnimation == null)
+            playerAnimation = GameObject.FindWithTag("Player Mech").GetComponent<AnimationController>();
+
+        if (enemyAnimation == null)
+            enemyAnimation = GameObject.FindWithTag("EnemyPrefab").GetComponent<EnemyAnimationController>();
+
+        enemyAnimation.SetAttack();
     }
 }
