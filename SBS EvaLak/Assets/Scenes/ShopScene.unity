@@ -1555,7 +1555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f23c728b9bb0c4f87c637e0f094686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TypeText
-  delay: 0.0001
+  delay: 0
   fullText: 
   Finish: 0
   TextBox: {fileID: 0}
@@ -9798,7 +9798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f23c728b9bb0c4f87c637e0f094686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TypeText
-  delay: 0.05
+  delay: 0.01
   fullText: 
   Finish: 0
   TextBox: {fileID: 0}

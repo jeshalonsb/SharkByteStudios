@@ -46,9 +46,17 @@ public class DeckBuilderManager : MonoBehaviour
     [SerializeField] bool doOnce = false;
     [SerializeField] bool waitDone = false;
 
+    [SerializeField] bool deckOpen = false;
+    [SerializeField] private GameObject modeButton;
+    [SerializeField] private GameObject deckInformation;
+
     [SerializeField] private List<GameObject> CardSlots; //UI game object where cards go
-    [SerializeField] private List<Sprite> CardSprites; //UI sprites to update card with sprite
     [SerializeField] private GameObject GridParent; //parent gameobject that holds grid of card slots
+
+    [SerializeField] private List<GameObject> DeckSlots;
+    [SerializeField] private GameObject GridParentDeck;
+
+    [SerializeField] private List<Sprite> CardSprites; //UI sprites to update card with sprite
     [SerializeField] private Sprite tempsprite;
     [SerializeField] private Sprite backsprite;
     [SerializeField] private Color tempcolor;
@@ -124,6 +132,10 @@ public class DeckBuilderManager : MonoBehaviour
         }
 
         if(GridParent == null) { GridParent = GameObject.Find("CardLayoutGrid"); }
+        if(GridParentDeck == null) { GridParentDeck = GameObject.Find("CardLayoutGrid-Deck"); }
+        if(modeButton == null) { modeButton = GameObject.Find("OpenDeck"); }
+        if(deckInformation == null) { deckInformation = GameObject.Find("DeckInfo"); }
+
         if(TemplateCard == null) { TemplateCard = GameObject.Find("TemplateCard"); }
 
         //Set up DB cards
@@ -160,12 +172,25 @@ public class DeckBuilderManager : MonoBehaviour
         {
             CardSlot.SetActive(true);
         }
+
+        foreach (Transform child in GridParentDeck.transform) //get children buttons from the grid
+        {
+            temp = child.gameObject;
+            DeckSlots.Add(temp);
+        }
+
+        foreach (GameObject DeckSlot in DeckSlots) //set them all active ...
+        {
+            DeckSlot.SetActive(true);
+        }
     }
 
     void DisplayCards()
     {
+        UpdateTextUI();
         int unlockNum = unlockedDeckList.Count; //grab how many cards are unlocked
 
+        //Storage
         string cardName; //text string of card
         TextMeshProUGUI cardNameText; //tmp of card
 
@@ -185,6 +210,36 @@ public class DeckBuilderManager : MonoBehaviour
 
             //SET SPRITE
             tempTransform = CardSlots[i].GetComponent<Transform>(); //grab transform of card slot
+            temp = tempTransform.gameObject;
+            tempimage = temp.GetComponent<Image>();
+            tempsprite = GetSprite(cardName);
+            tempimage.sprite = tempsprite;
+            tempimage.color = tempcolor;
+
+            //SET NAME
+            temp = tempTransform.GetChild(0).gameObject; //grab the child of card slot
+            cardNameText = temp.GetComponent<TextMeshProUGUI>();
+            cardNameText.text = cardName;
+        }
+
+        //Deck
+        cardName = "";
+        cardNameText = null; 
+
+        tempTransform = null;
+        tempimage = null;
+        temp = null;
+
+        for (int i = 0; i < DeckSlots.Count; i++) //for each card unlocked, set it to game object and set the card slot to active
+        {
+            if ((i + page) >= deckList.Count) { cardName = "Card Name"; } //if out of range
+            else //if in range
+            {
+                cardName = deckList[i + page]; //set the text on the card to be the card name
+            }
+
+            //SET SPRITE
+            tempTransform = DeckSlots[i].GetComponent<Transform>(); //grab transform of card slot
             temp = tempTransform.gameObject;
             tempimage = temp.GetComponent<Image>();
             tempsprite = GetSprite(cardName);
@@ -237,6 +292,9 @@ public class DeckBuilderManager : MonoBehaviour
             dbScreen.SetActive(true);
             DisplayCards();
         }
+
+        if(deckOpen) { GridParentDeck.SetActive(true); deckArea.SetActive(false); GridParent.SetActive(false); }
+        if(!deckOpen) { GridParentDeck.SetActive(false); deckArea.SetActive(true); GridParent.SetActive(true); }
     }
 
     public void UnloadTextFunction(GameObject o) //this brings an error, but id like to be able to make text seem to scroll up out of sight by deleting top line over and over
@@ -272,21 +330,41 @@ public class DeckBuilderManager : MonoBehaviour
 
     public void ScrollCards()
     {
-        if(swipeY == 1 && (page <= unlockedDeckList.Count)) //if swipe down and the page number is not more than possible cards
+        if(!deckOpen)
         {
-            page = page + CardSlots.Count;
-            if (page > unlockedDeckList.Count) { float pageNumber = (float)unlockedDeckList.Count / page; page = (Mathf.CeilToInt(pageNumber)) * CardSlots.Count; }
-            DisplayCards();
+            if (swipeY == 1 && (page <= unlockedDeckList.Count)) //if swipe down and the page number is not more than possible cards
+            {
+                page = page + CardSlots.Count;
+                if (page > unlockedDeckList.Count) { float pageNumber = (float)unlockedDeckList.Count / page; page = (Mathf.CeilToInt(pageNumber)) * CardSlots.Count; }
+                DisplayCards();
+            }
+
+            if (swipeY == -1 && (page >= 0)) //if swipe up and the page number is not less than 0
+            {
+                page = page - CardSlots.Count;
+                if (page < 0) { page = 0; }
+                DisplayCards();
+            }
         }
 
-        if(swipeY == -1 && (page >= 0)) //if swipe up and the page number is not less than 0
+        if(deckOpen)
         {
-            page = page - CardSlots.Count;
-            if(page < 0) { page = 0; }
-            DisplayCards();
+            if (swipeY == 1 && (page <= deckList.Count)) //if swipe down and the page number is not more than possible cards
+            {
+                page = page + DeckSlots.Count;
+                if (page > deckList.Count) { float pageNumber = (float)deckList.Count / page; page = (Mathf.CeilToInt(pageNumber)) * DeckSlots.Count; }
+                DisplayCards();
+            }
+
+            if (swipeY == -1 && (page >= 0)) //if swipe up and the page number is not less than 0
+            {
+                page = page - DeckSlots.Count;
+                if (page < 0) { page = 0; }
+                DisplayCards();
+            }
         }
 
-        if((swipeX == 1 || swipeX == -1) && PhysicalInventory.Count > 0) //if swipe left or right, and physical inventory has cards
+        if((swipeX == 1 || swipeX == -1) && PhysicalInventory.Count > 0 && !deckOpen) //if swipe left or right, and physical inventory has cards
         {
             int childCount = deckArea.transform.childCount; //count how many children in deck area
             GameObject topCard = deckArea.transform.GetChild(childCount - 1).gameObject; //get the top card
@@ -311,22 +389,26 @@ public class DeckBuilderManager : MonoBehaviour
 
     public void AddCardToDeckUI(string card, GameObject button)
     {
-        GameObject temp = Instantiate(TemplateCard, deckArea.transform);
-        CardLocation(temp, button.transform.position, dragduration);
-        PhysicalInventory.Add(temp);
-        //SET SPRITE
-        Transform tempTransform = temp.transform; //grab transform of card slot
-        Image tempimage = temp.GetComponent<Image>();
-        tempsprite = GetSprite(card);
-        tempimage.sprite = tempsprite;
-        tempimage.color = Color.white;
+        if(inventory.deckList.Count < inventory.deckSize)
+        {
+            GameObject temp = Instantiate(TemplateCard, deckArea.transform);
+            CardLocation(temp, button.transform.position, dragduration);
+            PhysicalInventory.Add(temp);
+            //SET SPRITE
+            Transform tempTransform = temp.transform; //grab transform of card slot
+            Image tempimage = temp.GetComponent<Image>();
+            tempsprite = GetSprite(card);
+            tempimage.sprite = tempsprite;
+            tempimage.color = Color.white;
 
-        //SET NAME
-        temp = tempTransform.GetChild(0).gameObject; //grab the child of card slot
-        TextMeshProUGUI cardNameText = temp.GetComponent<TextMeshProUGUI>();
-        cardNameText.text = card;
-        
-        DisplayCards();
+            //SET NAME
+            temp = tempTransform.GetChild(0).gameObject; //grab the child of card slot
+            TextMeshProUGUI cardNameText = temp.GetComponent<TextMeshProUGUI>();
+            cardNameText.text = card;
+
+            DisplayCards();
+        }
+        else { Debug.Log("Inventory Full!"); }
     }
 
     public void CardLocation(GameObject temp, Vector3 position, float duration)
@@ -355,10 +437,56 @@ public class DeckBuilderManager : MonoBehaviour
 
     public void RemoveCardFromDeckUI(string card, GameObject button)
     {
-        int listIndex = PhysicalInventory.IndexOf(button);
-        Destroy(PhysicalInventory[listIndex]);
-        PhysicalInventory.RemoveAt(listIndex);
-        
+        if (!deckOpen)
+        {
+            int listIndex = PhysicalInventory.IndexOf(button);
+            Destroy(PhysicalInventory[listIndex]);
+            PhysicalInventory.RemoveAt(listIndex);
+        }
+
+        if (deckOpen)
+        {
+            int listIndex;
+            GameObject cardTextChild;
+            TextMeshProUGUI cardTMP;
+
+            foreach (GameObject cardObject in PhysicalInventory)
+            {
+                cardTextChild = cardObject.transform.GetChild(0).gameObject;
+                cardTMP = cardTextChild.GetComponent<TextMeshProUGUI>();
+                if (cardTMP.text == card) { listIndex = PhysicalInventory.IndexOf(cardObject); Destroy(PhysicalInventory[listIndex]); PhysicalInventory.RemoveAt(listIndex); break; }
+            }
+        }
+
+        DisplayCards();
+    }
+
+    public void DeckShowButton()
+    {
+        deckOpen = !deckOpen;
+        page = 0;
+        TextMeshProUGUI modeText;
+        GameObject modeTextChild;
+        string mode;
+        if (deckOpen) { mode = "Storage"; }
+        else { mode = "Deck"; }
+
+        modeTextChild = modeButton.transform.GetChild(0).gameObject; //grab the child of card slot
+        modeText = modeTextChild.GetComponent<TextMeshProUGUI>();
+        modeText.text = mode;
+    }
+
+    public void UpdateTextUI()
+    {
+        if(deckInformation != null)
+        {
+            GameObject temp = deckInformation.transform.GetChild(1).gameObject;
+            TextMeshProUGUI deckTMP = temp.GetComponent<TextMeshProUGUI>();
+            int deckSize = inventory.deckSize;
+            int deckCount = deckList.Count;
+            deckTMP.text = $"{deckCount}/{deckSize}";
+
+        }
     }
 }
 
