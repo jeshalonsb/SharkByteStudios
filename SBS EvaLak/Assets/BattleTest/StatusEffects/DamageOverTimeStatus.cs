@@ -2,22 +2,20 @@ using UnityEngine;
 
 public class DamageOverTimeStatus : StatusEffect
 {
-    private Healthbar target;
     private int damagePerTick;
 
     // Called by the card that creates this status effect
     public void Init(Healthbar target, int amount, int turns)
     {
-        this.target = target;
+        Begin(target, turns); // new DoT always resets duration
         damagePerTick = amount;
-        turnsLeft = turns; // new DoT always resets duration
 
         // stack existing DoT damage instance into new one if possible
         foreach (StatusEffect effect in StatusEffect.GetAll())
         {
             if (effect == this) continue;
 
-            if (effect is DamageOverTimeStatus other && other.target == target)
+            if (effect is DamageOverTimeStatus other && other.Target == Target)
             {
                 damagePerTick += other.damagePerTick;
                 other.turnsLeft = 0;
@@ -30,13 +28,13 @@ public class DamageOverTimeStatus : StatusEffect
 
     protected override void OnTick()
     {
-        if (target == null)
+        if (Target == null)
         {
             turnsLeft = 0;
             return;
         }
 
-        target.health = Mathf.Max(target.health - damagePerTick, 0);
+        Target.health = Mathf.Max(Target.health - damagePerTick, 0);
 
         Debug.Log("DoT triggered for " + damagePerTick + ", " + (turnsLeft - 1) + " turns left");
     }
