@@ -55,7 +55,7 @@ public class ComboDamage : CardEffect
             enemyManager.EnemyAttackAnim();
         }
 
-        mod.damageMult = mod.basedamageMult;
+        //mod.damageMult = mod.basedamageMult;
         mod.combo++;
     }
 

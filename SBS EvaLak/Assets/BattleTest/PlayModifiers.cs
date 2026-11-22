@@ -47,12 +47,13 @@ public class PlayModifiers : MonoBehaviour
     public void EndHand()
     {
         combo = 0;
+        damageMult = basedamageMult;
     }
 
     void CheckMech()
     {
         float addDamage;
-        if(HeadSlot == "damage")
+        if (HeadSlot == "damage")
         {
             addDamage = basedamageMult * IntPercentage(HeadValue);
             Debug.Log(addDamage);
