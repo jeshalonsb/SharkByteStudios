@@ -290,9 +290,8 @@ public class MechUpgradeManager : MonoBehaviour
                 {
                     HeadCardSlot = card;
 
-                    AnimateCardToSlot(card, lastButton, currentButton);
-
                     lastButton.SetActive(false);
+                    AnimateCardToSlot(card, lastButton, currentButton);
 
                     UpdateButtonText(upHeadButton, card);
                     UpdateButtonSprite(upHeadButton, card);
@@ -305,11 +304,9 @@ public class MechUpgradeManager : MonoBehaviour
                     index = mechDeckList.IndexOf(HeadCardSlot);
                     UICardObjectList[index].SetActive(true);
 
-                    HeadCardSlot = card;
-
-                    //AnimateCardToSlot(card, lastButton, currentButton);
-
                     lastButton.SetActive(false);
+
+                    HeadCardSlot = card;
 
                     UpdateButtonText(upHeadButton, card);
                     UpdateButtonSprite(upHeadButton, card);
@@ -323,9 +320,8 @@ public class MechUpgradeManager : MonoBehaviour
                 {
                     ArmsCardSlot = card;
 
-                    //AnimateCardToSlot(card, lastButton, currentButton);
-
                     lastButton.SetActive(false);
+                    AnimateCardToSlot(card, lastButton, currentButton);
 
                     UpdateButtonText(upArmsButton, card);
                     UpdateButtonText(downArmsButton, card);
@@ -342,8 +338,6 @@ public class MechUpgradeManager : MonoBehaviour
                     UICardObjectList[index].SetActive(true);
 
                     ArmsCardSlot = card;
-
-                    //AnimateCardToSlot(card, lastButton, currentButton);
 
                     lastButton.SetActive(false);
 
@@ -362,9 +356,8 @@ public class MechUpgradeManager : MonoBehaviour
                 {
                     LegsCardSlot = card;
 
-                    //AnimateCardToSlot(card, lastButton, currentButton);
-
                     lastButton.SetActive(false);
+                    AnimateCardToSlot(card, lastButton, currentButton);
 
                     UpdateButtonText(downLegsButton, card);
                     UpdateButtonSprite(downLegsButton, card);
@@ -378,8 +371,6 @@ public class MechUpgradeManager : MonoBehaviour
                     UICardObjectList[index].SetActive(true);
 
                     LegsCardSlot = card;
-
-                    //AnimateCardToSlot(card, lastButton, currentButton);
 
                     lastButton.SetActive(false);
 
@@ -684,8 +675,7 @@ public class MechUpgradeManager : MonoBehaviour
         Debug.Log("Sending " + card + " from " + startbutton + " to " + endbutton);
 
         GameObject tempAnim;
-        if (UICardObjectList.Contains(startbutton)) { tempAnim = Instantiate(template, animationSpace.transform); }
-        else { tempAnim = Instantiate(startbutton, animationSpace.transform); }
+        tempAnim = Instantiate(template, animationSpace.transform);
 
         tempAnim.GetComponent<Image>().sprite = GetSprite(card);
 
