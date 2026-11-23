@@ -79,6 +79,7 @@ public class MechUpgradeManager : MonoBehaviour
     private int stat;
 
     [SerializeField] private GameObject animationSpace;
+    [SerializeField] private GameObject animationSpace2;
     [SerializeField] private List<GameObject> animationInventory;
 
     [Header("Send To Inventory")]
@@ -154,13 +155,6 @@ public class MechUpgradeManager : MonoBehaviour
 
     Sprite GetSprite(string card) //grab the sprite data for the card and update it when rendering the cards
     {
-        if (fullmechDeckList.Contains(card)) 
-        {
-            index = fullmechDeckList.IndexOf(card);
-            effectType = GetEffect(fullmechDeckList[index]);
-        }
-        
-
         if (card == "head" || card == "arms" || card == "legs")
         {
             if (card == "head") { return CardSlotEmpty[0]; }
@@ -296,7 +290,7 @@ public class MechUpgradeManager : MonoBehaviour
                 {
                     HeadCardSlot = card;
 
-                    //AnimateCardToSlot(card, lastButton, currentButton);
+                    AnimateCardToSlot(card, lastButton, currentButton);
 
                     lastButton.SetActive(false);
 
@@ -427,7 +421,8 @@ public class MechUpgradeManager : MonoBehaviour
     void DetermineValue(string card, CardType slot) //update data to send to inventory based on card name, index
     {
         index = fullmechDeckList.IndexOf(card);
-        int cardValue = cardEffectValueList[index];
+        int cardValue = cardEffectValueList[index]; 
+
         if (cardEffectList[index] != "") { cardEffect = cardEffectList[index]; } //if card effect is found for that card, save it
 
         switch (slot)
@@ -627,27 +622,26 @@ public class MechUpgradeManager : MonoBehaviour
             case CardType.head:
                 if (HeadCardSlot != "") //if something saved in card slot
                 {
+                    AnimateCardToSlot(HeadCardSlot, lastButton, currentButton);
+
                     index = mechDeckList.IndexOf(HeadCardSlot);
                     UICardObjectList[index].SetActive(true);
-
-                    //AnimateCardToSlot(card, lastButton, currentButton);
 
                     HeadCardSlot = card;
 
                     UpdateButtonText(upHeadButton, card);
                     UpdateButtonSprite(upHeadButton, "head");
 
-                    DetermineValue(card, SlotType);
                     UpdateInventoryData();
                 }
                 break;
             case CardType.arms:
                 if (ArmsCardSlot != "") //if something saved in card slot
                 {
+                    AnimateCardToSlot(ArmsCardSlot, lastButton, currentButton);
+
                     index = mechDeckList.IndexOf(ArmsCardSlot);
                     UICardObjectList[index].SetActive(true);
-                    
-                    //AnimateCardToSlot(card, lastButton, currentButton);
 
                     ArmsCardSlot = card;
 
@@ -657,34 +651,37 @@ public class MechUpgradeManager : MonoBehaviour
                     UpdateButtonSprite(upArmsButton, "arms");
                     UpdateButtonSprite(downArmsButton, "arms");
 
-                    DetermineValue(card, SlotType);
                     UpdateInventoryData();
                 }
                 break;
             case CardType.legs:
                 if (LegsCardSlot != "") //if something saved in card slot
                 {
+                    AnimateCardToSlot(LegsCardSlot, lastButton, currentButton);
+
                     index = mechDeckList.IndexOf(LegsCardSlot);
                     UICardObjectList[index].SetActive(true);
-
-                    //AnimateCardToSlot(card, lastButton, currentButton);
 
                     LegsCardSlot = card;
 
                     UpdateButtonText(downLegsButton, card);
                     UpdateButtonSprite(downLegsButton, "legs");
 
-                    DetermineValue(card, SlotType);
                     UpdateInventoryData();
                 }
                 break;
             default:
                 break;
         }
+
+        Color returnColor = Color.black;
+        returnColor.a = 0.6f;
+        returnSlot.GetComponent<Image>().color = returnColor;
     }
 
     public void AnimateCardToSlot(string card, GameObject startbutton, GameObject endbutton)
     {
+        Debug.Log("Sending " + card + " from " + startbutton + " to " + endbutton);
         GameObject tempAnim = Instantiate(startbutton, animationSpace.transform);
         tempAnim.GetComponent<Image>().sprite = GetSprite(card);
 
@@ -707,7 +704,8 @@ public class MechUpgradeManager : MonoBehaviour
     public void CardLocation(GameObject temp, Vector3 position, float duration)
     {
         temp.transform.position = position;
-        if (lastButton == returnSlot) { StartCoroutine(MoveCard(temp, animationSpace, duration)); }
+        if (currentButton == returnSlot) { StartCoroutine(MoveCard(temp, animationSpace, duration)); }
+        else if(currentButton == upHeadButton) { StartCoroutine(MoveCard(temp, animationSpace2, duration)); }
         else { StartCoroutine(MoveCard(temp, currentButton, duration)); }
     }
 
@@ -727,5 +725,7 @@ public class MechUpgradeManager : MonoBehaviour
             elapsedTIme += Time.deltaTime;
             yield return null;
         }
+
+        DeleteAnim();
     }
 }

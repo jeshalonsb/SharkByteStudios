@@ -1638,6 +1638,7 @@ MonoBehaviour:
   EnergyStatText: {fileID: 1480150529}
   EnergyStatTextIncrease: {fileID: 1487862949}
   animationSpace: {fileID: 1488513518}
+  animationSpace2: {fileID: 1190189997}
   animationInventory: []
   HeadCardSlot: 
   ArmsCardSlot: 
@@ -3856,6 +3857,41 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3562505439654471651, guid: 451d7dc5bdced3b408dd297459e61c42, type: 3}
   m_PrefabInstance: {fileID: 1008252322}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1190189997
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1190189998}
+  m_Layer: 5
+  m_Name: Animation2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1190189998
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190189997}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1256206433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 339.31}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1190634968
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4139,6 +4175,7 @@ RectTransform:
   - {fileID: 1400987344}
   - {fileID: 26583828}
   - {fileID: 1488513519}
+  - {fileID: 1190189998}
   m_Father: {fileID: 855235100}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
