@@ -94,6 +94,7 @@ public class MechUpgradeManager : MonoBehaviour
     [SerializeField] private int HeadCardSlotValue; //int of the value of the effect, FOR LATER rn it defaults to plus 1
     [SerializeField] private int ArmsCardSlotValue;
     [SerializeField] private int LegsCardSlotValue;
+    [SerializeField] private bool isMoving = false;
 
 
     private void Start()
@@ -301,6 +302,7 @@ public class MechUpgradeManager : MonoBehaviour
                 }
                 else
                 {
+                    AnimateCardToSlot(card, lastButton, currentButton);
                     index = mechDeckList.IndexOf(HeadCardSlot);
                     UICardObjectList[index].SetActive(true);
 
@@ -412,7 +414,7 @@ public class MechUpgradeManager : MonoBehaviour
     void DetermineValue(string card, CardType slot) //update data to send to inventory based on card name, index
     {
         index = fullmechDeckList.IndexOf(card);
-        int cardValue = cardEffectValueList[index]; 
+        int cardValue = cardEffectValueList[index];
 
         if (cardEffectList[index] != "") { cardEffect = cardEffectList[index]; } //if card effect is found for that card, save it
 
@@ -672,17 +674,21 @@ public class MechUpgradeManager : MonoBehaviour
 
     public void AnimateCardToSlot(string card, GameObject startbutton, GameObject endbutton)
     {
-        Debug.Log("Sending " + card + " from " + startbutton + " to " + endbutton);
+        if (!isMoving)
+        {
+            Debug.Log("Sending " + card + " from " + startbutton + " to " + endbutton);
 
-        GameObject tempAnim;
-        tempAnim = Instantiate(template, animationSpace.transform);
+            GameObject tempAnim;
+            tempAnim = Instantiate(template, animationSpace.transform);
 
-        tempAnim.GetComponent<Image>().sprite = GetSprite(card);
+            tempAnim.GetComponent<Image>().sprite = GetSprite(card);
 
-        CardLocation(tempAnim, startbutton.transform.position, 1f);
-        animationInventory.Add(tempAnim);
+            CardLocation(tempAnim, startbutton.transform.position, 1f);
+            animationInventory.Add(tempAnim);
 
-        DisplayCards();
+            DisplayCards();
+        }
+        else { return; }
     }
 
     public void DeleteAnim()
@@ -710,6 +716,7 @@ public class MechUpgradeManager : MonoBehaviour
 
         while (elapsedTIme < duration)
         {
+            isMoving = true;
             float t = elapsedTIme / duration;
             float smoothT = Mathf.SmoothStep(0f, 1f, t);
 
@@ -719,6 +726,7 @@ public class MechUpgradeManager : MonoBehaviour
             yield return null;
         }
 
+        isMoving = false;
         DeleteAnim();
     }
 }
