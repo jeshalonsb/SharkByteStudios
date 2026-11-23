@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 public class Damage : CardEffect
 {
     private EnemyManager enemyManager;
@@ -19,6 +19,7 @@ public class Damage : CardEffect
     }
     public override void Activate()
     {
+
         PlayModifiers mod = GameObject.FindWithTag("Modifiers").GetComponent<PlayModifiers>();
 
         Healthbar HP;
@@ -41,16 +42,18 @@ public class Damage : CardEffect
 
         temporaryHealth = HP.health;
 
+        float shieldMult = ShieldEffect.ConsumeShield(targetPlayer);
+
         if (!targetPlayer)
         {
-            temporaryHealth -= finalDamage * mod.damageMult;
+            temporaryHealth -= finalDamage * mod.damageMult * shieldMult;
             mod.damageMult = mod.basedamageMult;
             mod.combo = 0;
             enemyManager.PlayerAttackAnim();
         }
         else
         {
-            temporaryHealth -= finalDamage;
+            temporaryHealth -= finalDamage * shieldMult;
             enemyManager.EnemyAttackAnim();
         }
 

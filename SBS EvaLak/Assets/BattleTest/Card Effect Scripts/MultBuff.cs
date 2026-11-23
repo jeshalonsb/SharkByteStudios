@@ -13,6 +13,6 @@ public class MultBuff : CardEffect
         PlayModifiers mod = GameObject.FindWithTag("Modifiers").GetComponent<PlayModifiers>();
 
         mod.damageMult += 1;
-        mod.combo = 0;
+        //mod.combo = 0;
     }
 }

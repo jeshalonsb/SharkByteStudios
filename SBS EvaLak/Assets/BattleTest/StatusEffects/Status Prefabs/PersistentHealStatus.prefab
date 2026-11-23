@@ -44,4 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99864b28fb2a96542bd16572f59f1000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PersistentHealStatus
+  uiPrefab: {fileID: -8966728395510739536, guid: d61d17b91365ad945826112d9cc46d1f, type: 3}
   turnsLeft: 3

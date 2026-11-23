@@ -32,11 +32,13 @@ public class ComboDamage : CardEffect
         // Each combo card played before this one doubles the damage: 1x, 2x, 4x, 8x...
         int comboMult = 1 << mod.combo;
 
+        float shieldMult = ShieldEffect.ConsumeShield(targetPlayer);
+
         if (!targetPlayer) //if not targeting the player (default)
         {
             temporaryHealth = enemyHP.health;
 
-            temporaryHealth -= finalDamage * mod.damageMult * comboMult;
+            temporaryHealth -= finalDamage * mod.damageMult * comboMult * shieldMult;
 
             enemyHP.health = Mathf.RoundToInt(temporaryHealth);
 
@@ -46,14 +48,14 @@ public class ComboDamage : CardEffect
         {
             temporaryHealth = playerHP.health;
 
-            temporaryHealth -= finalDamage * mod.damageMult * comboMult;
+            temporaryHealth -= finalDamage * mod.damageMult * comboMult * shieldMult;
 
             playerHP.health = Mathf.RoundToInt(temporaryHealth);
 
             enemyManager.EnemyAttackAnim();
         }
 
-        mod.damageMult = mod.basedamageMult;
+        //mod.damageMult = mod.basedamageMult;
         mod.combo++;
     }
 

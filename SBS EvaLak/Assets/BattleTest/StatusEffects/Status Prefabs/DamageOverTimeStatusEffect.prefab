@@ -44,4 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac3a31a701a4ad4bb5d21497a0f1616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageOverTimeStatus
+  uiPrefab: {fileID: -2031138809632098654, guid: 0b6cc8f144baa0f42b0665292c5d7951, type: 3}
   turnsLeft: 3
