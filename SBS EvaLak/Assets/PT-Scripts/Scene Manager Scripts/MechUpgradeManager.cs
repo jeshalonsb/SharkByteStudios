@@ -38,7 +38,9 @@ public class MechUpgradeManager : MonoBehaviour
     [Header("UI Setup")]
     public List<GameObject> UICardObjectList;
     public List<Sprite> UICardSprites;
+    public List<Sprite> CardSlotEmpty;
     [SerializeField] private GameObject SortCards;
+
     //data stored for button press
 
     [SerializeField] private Color HeadColor;
@@ -51,6 +53,8 @@ public class MechUpgradeManager : MonoBehaviour
     [SerializeField] private GameObject temp;
     [SerializeField] private int index;
     [SerializeField] private CardType SlotType;
+
+    [SerializeField] private GameObject returnSlot;
 
     //buttons from Camera Control
     [SerializeField] private GameObject upHeadButton;
@@ -73,6 +77,9 @@ public class MechUpgradeManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI EnergyStatTextIncrease;
 
     private int stat;
+
+    [SerializeField] private GameObject animationSpace;
+    [SerializeField] private List<GameObject> animationInventory;
 
     [Header("Send To Inventory")]
     [SerializeField] private string HeadCardSlot;
@@ -107,6 +114,8 @@ public class MechUpgradeManager : MonoBehaviour
 
         //UpdateInventoryData();
         UpdateStatUI();
+
+        returnSlot.SetActive(true);
     }
 
     void GetCards() //get all card slots from ui grid, put them in list
@@ -145,28 +154,25 @@ public class MechUpgradeManager : MonoBehaviour
 
     Sprite GetSprite(string card) //grab the sprite data for the card and update it when rendering the cards
     {
+        if (fullmechDeckList.Contains(card)) 
+        {
+            index = fullmechDeckList.IndexOf(card);
+            effectType = GetEffect(fullmechDeckList[index]);
+        }
+        
 
-        index = fullmechDeckList.IndexOf(card);
-        effectType = GetEffect(fullmechDeckList[index]);
-
-        //switch (effectType)
-        //{
-        //    case CardEffectType.damage:
-        //        return UICardSprites[0];
-        //    case CardEffectType.energy:
-        //        return UICardSprites[1];
-        //    case CardEffectType.health:
-        //        return UICardSprites[2];
-        //    default:
-        //        return UICardSprites[0];
-        //}
-
-        if (inventory.fullmechDeckList.Contains(card))
+        if (card == "head" || card == "arms" || card == "legs")
+        {
+            if (card == "head") { return CardSlotEmpty[0]; }
+            if (card == "arms") { return CardSlotEmpty[1]; }
+            if (card == "legs") { return CardSlotEmpty[2]; }
+            else { return null; }
+        }
+        else if (inventory.fullmechDeckList.Contains(card))
         {
             int index = inventory.fullmechDeckList.IndexOf(card);
             return UICardSprites[index];
         }
-
         else
         {
             return null;
@@ -289,6 +295,9 @@ public class MechUpgradeManager : MonoBehaviour
                 if (HeadCardSlot == "") //if nothing saved in card slot
                 {
                     HeadCardSlot = card;
+
+                    //AnimateCardToSlot(card, lastButton, currentButton);
+
                     lastButton.SetActive(false);
 
                     UpdateButtonText(upHeadButton, card);
@@ -303,6 +312,9 @@ public class MechUpgradeManager : MonoBehaviour
                     UICardObjectList[index].SetActive(true);
 
                     HeadCardSlot = card;
+
+                    //AnimateCardToSlot(card, lastButton, currentButton);
+
                     lastButton.SetActive(false);
 
                     UpdateButtonText(upHeadButton, card);
@@ -316,6 +328,9 @@ public class MechUpgradeManager : MonoBehaviour
                 if (ArmsCardSlot == "") //if nothing saved in card slot
                 {
                     ArmsCardSlot = card;
+
+                    //AnimateCardToSlot(card, lastButton, currentButton);
+
                     lastButton.SetActive(false);
 
                     UpdateButtonText(upArmsButton, card);
@@ -333,6 +348,9 @@ public class MechUpgradeManager : MonoBehaviour
                     UICardObjectList[index].SetActive(true);
 
                     ArmsCardSlot = card;
+
+                    //AnimateCardToSlot(card, lastButton, currentButton);
+
                     lastButton.SetActive(false);
 
                     UpdateButtonText(upArmsButton, card);
@@ -349,6 +367,9 @@ public class MechUpgradeManager : MonoBehaviour
                 if (LegsCardSlot == "") //if nothing saved in card slot
                 {
                     LegsCardSlot = card;
+
+                    //AnimateCardToSlot(card, lastButton, currentButton);
+
                     lastButton.SetActive(false);
 
                     UpdateButtonText(downLegsButton, card);
@@ -363,6 +384,9 @@ public class MechUpgradeManager : MonoBehaviour
                     UICardObjectList[index].SetActive(true);
 
                     LegsCardSlot = card;
+
+                    //AnimateCardToSlot(card, lastButton, currentButton);
+
                     lastButton.SetActive(false);
 
                     UpdateButtonText(downLegsButton, card);
@@ -590,6 +614,118 @@ public class MechUpgradeManager : MonoBehaviour
             EnergyStatText = tempObject.GetComponent<TextMeshProUGUI>();
             tempObject = GameObject.Find("EnergyStatIncrease");
             EnergyStatTextIncrease = tempObject.GetComponent<TextMeshProUGUI>();
+        }
+    }
+
+    public void RemoveSlot()
+    {
+        Debug.Log("Button Pressed!");
+
+        string card = "";
+        switch (SlotType)
+        {
+            case CardType.head:
+                if (HeadCardSlot != "") //if something saved in card slot
+                {
+                    index = mechDeckList.IndexOf(HeadCardSlot);
+                    UICardObjectList[index].SetActive(true);
+
+                    //AnimateCardToSlot(card, lastButton, currentButton);
+
+                    HeadCardSlot = card;
+
+                    UpdateButtonText(upHeadButton, card);
+                    UpdateButtonSprite(upHeadButton, "head");
+
+                    DetermineValue(card, SlotType);
+                    UpdateInventoryData();
+                }
+                break;
+            case CardType.arms:
+                if (ArmsCardSlot != "") //if something saved in card slot
+                {
+                    index = mechDeckList.IndexOf(ArmsCardSlot);
+                    UICardObjectList[index].SetActive(true);
+                    
+                    //AnimateCardToSlot(card, lastButton, currentButton);
+
+                    ArmsCardSlot = card;
+
+                    UpdateButtonText(upArmsButton, card);
+                    UpdateButtonText(downArmsButton, card);
+
+                    UpdateButtonSprite(upArmsButton, "arms");
+                    UpdateButtonSprite(downArmsButton, "arms");
+
+                    DetermineValue(card, SlotType);
+                    UpdateInventoryData();
+                }
+                break;
+            case CardType.legs:
+                if (LegsCardSlot != "") //if something saved in card slot
+                {
+                    index = mechDeckList.IndexOf(LegsCardSlot);
+                    UICardObjectList[index].SetActive(true);
+
+                    //AnimateCardToSlot(card, lastButton, currentButton);
+
+                    LegsCardSlot = card;
+
+                    UpdateButtonText(downLegsButton, card);
+                    UpdateButtonSprite(downLegsButton, "legs");
+
+                    DetermineValue(card, SlotType);
+                    UpdateInventoryData();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void AnimateCardToSlot(string card, GameObject startbutton, GameObject endbutton)
+    {
+        GameObject tempAnim = Instantiate(startbutton, animationSpace.transform);
+        tempAnim.GetComponent<Image>().sprite = GetSprite(card);
+
+        CardLocation(tempAnim, startbutton.transform.position, 1f);
+        animationInventory.Add(tempAnim);
+
+        DisplayCards();
+    }
+
+    public void DeleteAnim()
+    {
+        for (int i = 0; i < animationInventory.Count; i++)
+        {
+            Destroy(animationInventory[i]);
+        }
+
+        animationInventory.Clear();
+    }
+
+    public void CardLocation(GameObject temp, Vector3 position, float duration)
+    {
+        temp.transform.position = position;
+        if (lastButton == returnSlot) { StartCoroutine(MoveCard(temp, animationSpace, duration)); }
+        else { StartCoroutine(MoveCard(temp, currentButton, duration)); }
+    }
+
+    public IEnumerator MoveCard(GameObject card, GameObject DeckArea, float duration)
+    {
+        float elapsedTIme = 0f;
+        Vector3 startPosition = card.transform.position;
+        Vector3 endPosition = DeckArea.transform.position;
+
+        while (elapsedTIme < duration)
+        {
+            float t = elapsedTIme / duration;
+            float smoothT = Mathf.SmoothStep(0f, 1f, t);
+
+            card.transform.position = Vector3.Lerp(startPosition, endPosition, smoothT);
+
+            elapsedTIme += Time.deltaTime;
+            yield return null;
         }
     }
 }
