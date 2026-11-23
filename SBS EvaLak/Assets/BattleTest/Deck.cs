@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class Deck : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class Deck : MonoBehaviour
 
     [SerializeField] private float checkCardsInterval = 0.25f;
     [SerializeField] private int numDiscards;
+
+    public GameObject lastPlayedCard;
+    public GameObject currentPlayedCard;
 
     public bool isPlaying;
 
@@ -77,6 +81,7 @@ public class Deck : MonoBehaviour
 
     private IEnumerator PlayRoutine()
     {
+        mod.combo = 0;
         isPlaying = true;
         if (enemyManager == null)
         {
@@ -103,13 +108,14 @@ public class Deck : MonoBehaviour
         // Play cards from left to right with delay in between each card, each card is sent to the graveyard after
         foreach (Card card in playedCards)
         {
+            lastPlayedCard = currentPlayedCard;
+            currentPlayedCard = card.gameObject;
+            CheckResetMult();
             card.OnPlay();
+
             graveyard.Add(card);
             yield return new WaitForSeconds(cardPlayInterval);
         }
-
-        mod.EndHand(); // tell mod script that the hand has stopped playing
-
         enemyManager.AttackRoutine(); // Actually do the enemy attack turn after the player turn
 
         RefillHand();
@@ -117,6 +123,10 @@ public class Deck : MonoBehaviour
         numDiscards = 0;
 
         isPlaying = false;
+
+        mod.EndHand(); // tell mod script that the hand has stopped playing
+
+        lastPlayedCard = null;
 
         enemyManager.ResetAnimationSpeed();
     }
@@ -155,5 +165,39 @@ public class Deck : MonoBehaviour
         //Debug.Log(count);
 
         return count;
+    }
+
+    private void CheckResetMult()
+    {
+        //if (currentPlayedCard == null) { return; }
+
+        //if (currentPlayedCard.name.Contains("Combo")) //if combo card played
+        //{
+        //    return;
+        //}
+        //else if (lastPlayedCard == null && currentPlayedCard.name.Contains("BuffMult")) //if first card played is buffmult
+        //{
+        //    return;
+        //}
+        //else if (!lastPlayedCard.name.Contains("BuffMult") && lastPlayedCard != null) //if last card played is not mult
+        //{
+        //    mod.damageMult = mod.basedamageMult;
+        //}
+
+        if (currentPlayedCard == null) { return; }
+
+        if (currentPlayedCard.name.Contains("Combo")) //if combo card played
+        {
+            return;
+        }
+        else if (currentPlayedCard.name.Contains("BuffMult")) //if combo card played
+        {
+            return;
+        }
+        else if (!lastPlayedCard.name.Contains("BuffMult") && lastPlayedCard != null)
+        {
+            mod.damageMult = mod.basedamageMult;
+        }
+
     }
 }

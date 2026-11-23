@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 public class Damage : CardEffect
 {
     private EnemyManager enemyManager;
@@ -19,6 +19,7 @@ public class Damage : CardEffect
     }
     public override void Activate()
     {
+
         PlayModifiers mod = GameObject.FindWithTag("Modifiers").GetComponent<PlayModifiers>();
 
         Healthbar HP;
