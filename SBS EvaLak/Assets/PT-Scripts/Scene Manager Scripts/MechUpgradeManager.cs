@@ -79,7 +79,7 @@ public class MechUpgradeManager : MonoBehaviour
     private int stat;
 
     [SerializeField] private GameObject animationSpace;
-    [SerializeField] private GameObject animationSpace2;
+    [SerializeField] private GameObject template;
     [SerializeField] private List<GameObject> animationInventory;
 
     [Header("Send To Inventory")]
@@ -682,7 +682,11 @@ public class MechUpgradeManager : MonoBehaviour
     public void AnimateCardToSlot(string card, GameObject startbutton, GameObject endbutton)
     {
         Debug.Log("Sending " + card + " from " + startbutton + " to " + endbutton);
-        GameObject tempAnim = Instantiate(startbutton, animationSpace.transform);
+
+        GameObject tempAnim;
+        if (UICardObjectList.Contains(startbutton)) { tempAnim = Instantiate(template, animationSpace.transform); }
+        else { tempAnim = Instantiate(startbutton, animationSpace.transform); }
+
         tempAnim.GetComponent<Image>().sprite = GetSprite(card);
 
         CardLocation(tempAnim, startbutton.transform.position, 1f);
@@ -705,7 +709,6 @@ public class MechUpgradeManager : MonoBehaviour
     {
         temp.transform.position = position;
         if (currentButton == returnSlot) { StartCoroutine(MoveCard(temp, animationSpace, duration)); }
-        else if(currentButton == upHeadButton) { StartCoroutine(MoveCard(temp, animationSpace2, duration)); }
         else { StartCoroutine(MoveCard(temp, currentButton, duration)); }
     }
 
