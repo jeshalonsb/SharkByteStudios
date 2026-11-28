@@ -751,6 +751,7 @@ GameObject:
   - component: {fileID: 1252743146}
   - component: {fileID: 1252743145}
   - component: {fileID: 1252743144}
+  - component: {fileID: 1252743148}
   m_Layer: 0
   m_Name: DDOL
   m_TagString: Untagged
@@ -872,6 +873,9 @@ MonoBehaviour:
   numDamage: 0
   numCombo: 0
   numRepair: 0
+  endless: 0
+  battleCount: 3
+  battleNum: 0
 --- !u!114 &1252743145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -915,6 +919,152 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1252743148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252743143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 521306cc42a99bf418fcb94a5a508827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardDictionary
+  cardNameList:
+  - RDamageCard-0-A
+  - RDamageCard-0-B
+  - RDamageCard-0-C
+  - CDamageCard-1-A
+  - CDamageCard-1-B
+  - CDamageCard-1-C
+  - LDamageCard-2-A
+  - LDamageCard-2-B
+  - LDamageCard-2-C
+  - RRepairCard-0-A
+  - RRepairCard-0-B
+  - RRepairCard-0-C
+  - CRepairCard-1-A
+  - CRepairCard-1-B
+  - CRepairCard-1-C
+  - LRepairCard-2-A
+  - LRepairCard-2-B
+  - RBuffMultCard-0-A
+  - CBuffMultCard-1-A
+  - CBuffMultCard-1-B
+  - CBuffMultCard-1-C
+  - LBuffMultCard-2
+  - RComboCard-0-A
+  - RComboCard-0-B
+  - RComboCard-0-C
+  - RComboCard-0-D
+  - RComboCard-0-E
+  - RComboCard-0-F
+  - RComboCard-0-G
+  - CComboCard-1-A
+  - CComboCard-1-B
+  - CComboCard-1-C
+  - CComboCard-1-D
+  - CComboCard-1-E
+  - CComboCard-1-F
+  - CComboCard-1-G
+  cardDescList:
+  - Deal 50 damage
+  - Deal 50 damage
+  - Deal 50 damage
+  - Deal 40 damage
+  - Deal 40 damage
+  - Deal 40 damage
+  - Deal 90 damage
+  - Deal 90 damage
+  - Deal 90 damage
+  - Repair 75 Health
+  - Repair 75 Health
+  - Repair 75 Health
+  - Repair 50 Health
+  - Repair 50 Health
+  - Repair 50 Health
+  - Repair 150 Health
+  - Repair 150 Health
+  - 2X damage mult on next attack
+  - 1.5X damage mult on next attack
+  - 1.5X damage mult on next attack
+  - 1.5X damage mult on next attack
+  - 3X damage mult on next attack
+  - '- Combo Strike -  Deal 20 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 20 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 20 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 20 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 20 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 20 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 20 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 10 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 10 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 10 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 10 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 10 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 10 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  - '- Combo Strike -  Deal 10 damage --- Doubles the damage of the next Combo Strike
+    if played successively'
+  cardValueList: 3200000032000000320000002800000028000000280000005a0000005a0000005a0000004b0000004b0000004b000000320000003200000032000000960000009600000064000000320000003200000032000000c8000000140000001400000014000000140000001400000014000000140000000a0000000a0000000a0000000a0000000a0000000a0000000a000000
+  cardCostList: 020000000200000002000000010000000100000001000000030000000300000003000000020000000200000002000000010000000100000001000000030000000300000002000000010000000100000001000000030000000200000002000000020000000200000002000000020000000200000001000000010000000100000001000000010000000100000001000000
+  soundList:
+  - {fileID: 8300000, guid: 2a942cc3107fca84da364fa1c4f89265, type: 3}
+  - {fileID: 8300000, guid: 805857499a59a4a49827f765f961bcf7, type: 3}
+  - {fileID: 8300000, guid: 905a9cc985aedbb43aa57f61ce95fda6, type: 3}
+  - {fileID: 8300000, guid: 5e6a57eebdb63264ea49ec8def1d91b9, type: 3}
+  - {fileID: 8300000, guid: ab9231fd9f4ff814ab66b425c5fec7d6, type: 3}
+  cardSpriteList:
+  - {fileID: 21300000, guid: dcf3f542a078114499b086d2496db5f8, type: 3}
+  - {fileID: 21300000, guid: dcf3f542a078114499b086d2496db5f8, type: 3}
+  - {fileID: 21300000, guid: dcf3f542a078114499b086d2496db5f8, type: 3}
+  - {fileID: 21300000, guid: bedebe2a2739fea4bb6ada586de1276e, type: 3}
+  - {fileID: 21300000, guid: bedebe2a2739fea4bb6ada586de1276e, type: 3}
+  - {fileID: 21300000, guid: bedebe2a2739fea4bb6ada586de1276e, type: 3}
+  - {fileID: 21300000, guid: de62ac36e8eb7aa40bde22ff1493eb57, type: 3}
+  - {fileID: 21300000, guid: de62ac36e8eb7aa40bde22ff1493eb57, type: 3}
+  - {fileID: 21300000, guid: de62ac36e8eb7aa40bde22ff1493eb57, type: 3}
+  - {fileID: 21300000, guid: 3f01d5400db93f143b79fa9ae1018bc1, type: 3}
+  - {fileID: 21300000, guid: 3f01d5400db93f143b79fa9ae1018bc1, type: 3}
+  - {fileID: 21300000, guid: 3f01d5400db93f143b79fa9ae1018bc1, type: 3}
+  - {fileID: 21300000, guid: c22487debffd8c5488718992a4963f68, type: 3}
+  - {fileID: 21300000, guid: c22487debffd8c5488718992a4963f68, type: 3}
+  - {fileID: 21300000, guid: c22487debffd8c5488718992a4963f68, type: 3}
+  - {fileID: 21300000, guid: 5b23917089a6f5648b9f991bfd69c47f, type: 3}
+  - {fileID: 21300000, guid: 5b23917089a6f5648b9f991bfd69c47f, type: 3}
+  - {fileID: 21300000, guid: 2bfe9b4b85c513b44a3feb79b508fab0, type: 3}
+  - {fileID: 21300000, guid: 3623b3e10d580e34d8fba4d44423e4f9, type: 3}
+  - {fileID: 21300000, guid: 3623b3e10d580e34d8fba4d44423e4f9, type: 3}
+  - {fileID: 21300000, guid: 3623b3e10d580e34d8fba4d44423e4f9, type: 3}
+  - {fileID: 21300000, guid: f8b6cad6d6cb88e46bfde183082580cf, type: 3}
+  - {fileID: 21300000, guid: efb702af2572e07418f2c4dea4b477e5, type: 3}
+  - {fileID: 21300000, guid: efb702af2572e07418f2c4dea4b477e5, type: 3}
+  - {fileID: 21300000, guid: efb702af2572e07418f2c4dea4b477e5, type: 3}
+  - {fileID: 21300000, guid: efb702af2572e07418f2c4dea4b477e5, type: 3}
+  - {fileID: 21300000, guid: efb702af2572e07418f2c4dea4b477e5, type: 3}
+  - {fileID: 21300000, guid: efb702af2572e07418f2c4dea4b477e5, type: 3}
+  - {fileID: 21300000, guid: efb702af2572e07418f2c4dea4b477e5, type: 3}
+  - {fileID: 21300000, guid: 8f053389c48f87f4a90379465d50ba66, type: 3}
+  - {fileID: 21300000, guid: 8f053389c48f87f4a90379465d50ba66, type: 3}
+  - {fileID: 21300000, guid: 8f053389c48f87f4a90379465d50ba66, type: 3}
+  - {fileID: 21300000, guid: 8f053389c48f87f4a90379465d50ba66, type: 3}
+  - {fileID: 21300000, guid: 8f053389c48f87f4a90379465d50ba66, type: 3}
+  - {fileID: 21300000, guid: 8f053389c48f87f4a90379465d50ba66, type: 3}
+  - {fileID: 21300000, guid: 8f053389c48f87f4a90379465d50ba66, type: 3}
+  inventory: {fileID: 1252743144}
 --- !u!1 &1287399299
 GameObject:
   m_ObjectHideFlags: 0

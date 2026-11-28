@@ -950,6 +950,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3535904031312655154, guid: de7b00460e395da4b8cacb3325ca4017, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8652119837252069836, guid: de7b00460e395da4b8cacb3325ca4017, type: 3}
       propertyPath: m_Name
       value: RDamageCard-0-B

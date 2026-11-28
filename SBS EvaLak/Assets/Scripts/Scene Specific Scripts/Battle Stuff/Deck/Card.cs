@@ -7,12 +7,12 @@ public class Card : MonoBehaviour
     public int energyCost = 2;
 
     public bool selected = false;
-    [SerializeField] private GameObject selectionBorder;
-    [SerializeField] private AudioClip playSound;
-    [SerializeField] private AudioClip selectSound;
+    public GameObject selectionBorder;
+    public AudioClip playSound;
+    public AudioClip selectSound;
     [SerializeField, Range(0f, 1f)] private float soundVolume = 1f;
 
-    [SerializeField, TextArea(2, 6)] private string description;
+    [SerializeField, TextArea(2, 6)] public string description;
 
     // Shared by all cards, found once in the scene
     private static TMP_Text popupText;
