@@ -11912,6 +11912,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3147777954009388140, guid: c3dfbb02edf1ba54b8219e37f2137902, type: 3}
+      propertyPath: action
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147777954009388140, guid: c3dfbb02edf1ba54b8219e37f2137902, type: 3}
       propertyPath: deckZone
       value: 
       objectReference: {fileID: 1413337370}

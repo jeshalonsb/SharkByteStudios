@@ -71,6 +71,7 @@ public class Inventory : MonoBehaviour
     {
         if(dictionary == null) { dictionary = GetComponent<CardDictionary>(); }
         if(fullDeckList.Count < dictionary.cardNameList.Count) { fullDeckList = dictionary.cardNameList; }
+        if(fullmechDeckList.Count < dictionary.componentCardList.Count) { fullmechDeckList = dictionary.componentCardList; }
 
         checkLockList = new List<bool>(new bool[fullDeckList.Count]);
         unlockedMechDeckList = new List<bool>(new bool[fullmechDeckList.Count]);

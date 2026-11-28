@@ -4,6 +4,8 @@ using System.Collections;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using Unity.VectorGraphics;
+using System.Text.RegularExpressions;
 
 public enum CardType { Strike, Combo, Buff, Heal, PersHeal, Flamethrower, Shield, Nothing}
 public class CardGen : MonoBehaviour
@@ -54,6 +56,9 @@ public class CardGen : MonoBehaviour
     public List<AudioClip> soundList;
     public AudioClip playSound;
 
+    public List<string> componentCardList; //list of component cards
+    public List<Sprite> componentSpriteList; 
+
     [Header("Spawned Cards")]
     public List<GameObject> spawnedCardList;
     [SerializeField] private GameObject temp;
@@ -62,7 +67,10 @@ public class CardGen : MonoBehaviour
     [SerializeField] private GameObject templateCard;
     [SerializeField] private GameObject deckZone;
 
-    public bool doneGen = false;
+    [SerializeField] private bool doneGen = false;
+    [SerializeField] private bool action;
+    [SerializeField] private bool component;
+    [SerializeField] private bool needScripts;
 
     void Start()
     {
@@ -79,10 +87,13 @@ public class CardGen : MonoBehaviour
             soundList = dictionary.soundList;
             cardSpriteList = dictionary.cardSpriteList;
 
+            componentCardList = dictionary.componentCardList;
+            componentSpriteList = dictionary.componentSpriteList;
         }
         if(deckZone == null) { deckZone = GameObject.Find("DeckZone"); }
         SetUpCardTypeList();
-        SpawnCards();
+        if (action) { SpawnActionCards(); }
+        if (component) { SpawnComponentCards(); }
     }
 
     public void SetUpCardTypeList()
@@ -106,7 +117,7 @@ public class CardGen : MonoBehaviour
         else { return CardType.Nothing; }  
     }
 
-    public void SpawnCards()
+    public void SpawnActionCards()
     {
         for(int i = 0; i < cardNameList.Count; i++) //if it detects card data, do this for each index of decklist
         {
@@ -145,7 +156,7 @@ public class CardGen : MonoBehaviour
             if (spriteRender == null) { spriteRender = temp.AddComponent<SpriteRenderer>(); }
             AddSprite(temp, cardSprite);
 
-            SetUp(cardType, cardValueList[i]); //set up card data
+            if (needScripts) { SetUp(cardType, cardValueList[i]); }//set up card data
 
             temp = null; //reset info before next card in for loop
             collider = null;
@@ -155,7 +166,7 @@ public class CardGen : MonoBehaviour
             spriteRender = null;
         }
 
-        doneGen = true;
+        if (!component) { doneGen = true; }
     }
 
     public AudioClip GetPlaySound(CardType cardType)
@@ -314,5 +325,38 @@ public class CardGen : MonoBehaviour
     {
         float floatvalue = ((float)value) / 100; //make percentage
         return floatvalue;
+    }
+
+    public void SpawnComponentCards()
+    {
+        for (int i = 0; i < componentCardList.Count; i++)
+        {
+            temp = Instantiate(templateCard, deckZone.transform); //spawn gameObject
+            temp.name = componentCardList[i]; //set name of gameObject
+
+            cardSprite = componentSpriteList[i]; //set up card sprite
+            cardImage = temp.GetComponent<Image>();
+            if (cardImage == null) { cardImage = temp.AddComponent<Image>(); }
+            spriteRender = temp.GetComponent<SpriteRenderer>();
+            if (spriteRender == null) { spriteRender = temp.AddComponent<SpriteRenderer>(); }
+            AddSprite(temp, cardSprite);
+
+            tmp = temp.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>(); //get text object
+            
+            string original = temp.name; string updated = original;
+            updated = updated.Replace("Head", "Head ");
+            updated = updated.Replace("Arms", "Arms ");
+            updated = updated.Replace("Legs", "Legs ");
+
+            tmpText = updated;
+            tmp.text = tmpText;
+
+            temp = null; //reset info before next card in for loop
+            cardSprite = null;
+            cardImage = null;
+            spriteRender = null;
+        }
+
+        doneGen = true;
     }
 }

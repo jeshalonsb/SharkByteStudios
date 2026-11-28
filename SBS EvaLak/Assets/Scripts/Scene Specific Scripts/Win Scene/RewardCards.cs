@@ -154,18 +154,28 @@ public class RewardCards : MonoBehaviour
     {
         foreach (var card in fullDeckList) //action card rewards
         {
-            temp = GameObject.Find(card);
-            if (card == cardReward1) { temp = Instantiate(temp, cardRewardCenter.transform); CardLocation(temp); }
-            if (card == cardReward2) { temp = Instantiate(temp, cardRewardLeft.transform); CardLocation(temp); }
-            if (card == cardReward3) { temp = Instantiate(temp, cardRewardRight.transform); CardLocation(temp); }
+            if (card != cardReward1 && card != cardReward2 && card != cardReward3) { continue; }
+
+            temp = DeckZone.transform.Find(card).gameObject;
+            GameObject spawnTemp;
+            if (card == cardReward1) { spawnTemp = Instantiate(temp, cardRewardCenter.transform); CardLocation(spawnTemp); }
+
+            if (card == cardReward2) { spawnTemp = Instantiate(temp, cardRewardLeft.transform); CardLocation(spawnTemp); }
+
+            if (card == cardReward3) { spawnTemp = Instantiate(temp, cardRewardRight.transform); CardLocation(spawnTemp); }
         }
 
         foreach (var card in fullmechdeckList) //component card rewards
         {
-            temp = GameObject.Find(card);
-            if (card == cardReward1) { temp = Instantiate(temp, cardRewardCenter.transform); CardLocation(temp); }
-            if (card == cardReward2) { temp = Instantiate(temp, cardRewardLeft.transform); CardLocation(temp); }
-            if (card == cardReward3) { temp = Instantiate(temp, cardRewardRight.transform); CardLocation(temp); }
+            if(card != cardReward1 && card != cardReward2 && card != cardReward3) { continue; }
+            
+            temp = DeckZone.transform.Find(card).gameObject;
+            GameObject spawnTemp;
+            if (card == cardReward1) { spawnTemp = Instantiate(temp, cardRewardCenter.transform); CardLocation(spawnTemp); }
+
+            if (card == cardReward2) { spawnTemp = Instantiate(temp, cardRewardLeft.transform); CardLocation(spawnTemp); }
+
+            if (card == cardReward3) { spawnTemp = Instantiate(temp, cardRewardRight.transform); CardLocation(spawnTemp); }
         }
 
         if (confetti != null) { confetti.SetActive(true); ConfettiAnimator.SetTrigger("Confetti"); }
