@@ -66,6 +66,8 @@ public class Inventory : MonoBehaviour
     public bool endless; //bool for endless mode, for now it just makes waves infinite
     public int battleCount = 3; //how many battles per wave, default to 3
     public int battleNum = 0; //how many battles you completed so far
+
+    public int saveSlot = 1; //either 1 or 2
     
     private void Start()
     {
