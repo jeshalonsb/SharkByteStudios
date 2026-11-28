@@ -205,7 +205,7 @@ public class CardGen : MonoBehaviour
             case CardType.PersHeal:
                 return "Persistent Repair"; //heal
             case CardType.Buff:
-                return "Buff"; //power up
+                return "Mult Buff"; //power up
             case CardType.Flamethrower:
                 return "Flamethrower"; //attack basic
             case CardType.Shield:

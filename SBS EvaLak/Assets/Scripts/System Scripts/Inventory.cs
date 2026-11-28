@@ -76,14 +76,6 @@ public class Inventory : MonoBehaviour
         checkLockList = new List<bool>(new bool[fullDeckList.Count]);
         unlockedMechDeckList = new List<bool>(new bool[fullmechDeckList.Count]);
         UpdateLockedCards();
-        //random population
-        //while (deckList.Count < deckLength)
-        //{
-        //    int randomIndex = Random.Range(0, fullDeckList.Count);
-        //    string tempElement = fullDeckList[randomIndex];
-
-        //    if (!deckList.Contains(tempElement)) { deckList.Add(tempElement); }
-        //}
     }
 
     public void UpdateLockedCards()
@@ -113,24 +105,7 @@ public class Inventory : MonoBehaviour
         if(sceneName == "HangarLevel") { battleNum = 0; }
         if (cardScene) //if scene with cards in it
         {
-            //THIS WILL BREAK IF YOU ENTER THE BATTLE FIRST (i think) WE NEED TO MAKE THIS ONLY LOAD ON DECKBUILDER SCENE 
-            // FIXED BELOW FOR YOU DREW! - Vee
-            if (sceneName == sceneNameList[0]) // if it is in deckbuilder scene run this extra stuff
-            {
-                numCardsUI = GameObject.Find("NumCardsUI");
-                numCardsInDeck = numCardsUI.GetComponent<NumCardsInDeck>();
-            }
-
             if (sceneName == sceneNameList[1] && deckList.Count == 0) { SceneManager.LoadScene("HangarLevel"); } //if enter battle with empty deck, it sends you back to level select
-            
-            //check to see if deck game objects are in the scene and if they are append them to the list
-            cardGameObjectList = new List<GameObject>(); //empty list from what it was filled with in old scenes
-            foreach (string name in fullDeckList)
-            {
-                tempGameObject = GameObject.Find(name); //see if card with name is in scene
-                if (tempGameObject != null) { cardGameObjectList.Add(tempGameObject); } // if so add to game object list
-                else { Debug.Log("Could not find " + name + " in scene: " + sceneName); } // if not then break to next one
-            }
         }
     }
 
