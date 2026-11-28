@@ -62,6 +62,8 @@ public class CardGen : MonoBehaviour
     [SerializeField] private GameObject templateCard;
     [SerializeField] private GameObject deckZone;
 
+    public bool doneGen = false;
+
     void Start()
     {
         if(dictionary == null) //initialize
@@ -152,6 +154,8 @@ public class CardGen : MonoBehaviour
             cardImage = null;
             spriteRender = null;
         }
+
+        doneGen = true;
     }
 
     public AudioClip GetPlaySound(CardType cardType)
