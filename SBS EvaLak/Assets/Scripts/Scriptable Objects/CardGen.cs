@@ -271,7 +271,7 @@ public class CardGen : MonoBehaviour
         PersistentHeal persHeal = temp.AddComponent<PersistentHeal>();
         persHeal.healPerTurnValue = persHealAmount;
 
-        //persHeal.statusPrefab = healstatusPrefab;
+        persHeal.statusPrefab = healstatusPrefab;
 
         persHeal.targetPlayer = targetPlayer;
     }
@@ -287,7 +287,7 @@ public class CardGen : MonoBehaviour
         DamageOverTime dot = temp.AddComponent<DamageOverTime>();
         dot.damagePerTurnValue = damageAmount;
 
-        //dot.statusPrefab = damagestatusPrefab;
+        dot.statusPrefab = damagestatusPrefab;
 
         dot.targetPlayer = targetPlayer;
     }
@@ -295,6 +295,8 @@ public class CardGen : MonoBehaviour
     public void SetUpShield(GameObject temp, int shieldAmount)
     {
         ShieldEffect shield = temp.AddComponent<ShieldEffect>();
+
+        shield.shieldMult = IntPercentage(shieldAmount);
 
         shield.targetPlayer = targetPlayer;
     }

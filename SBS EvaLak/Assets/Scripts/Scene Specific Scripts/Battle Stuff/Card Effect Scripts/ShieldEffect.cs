@@ -4,7 +4,7 @@ public class ShieldEffect : CardEffect
 {
     public bool targetPlayer;
 
-    [SerializeField, Range(0f, 1f)] private float shieldMult = 0.5f;
+    [SerializeField, Range(0f, 1f)] public float shieldMult = 0.5f;
 
     private static float playerShieldMult = 0.5f;
     private static float enemyShieldMult = 0.5f;

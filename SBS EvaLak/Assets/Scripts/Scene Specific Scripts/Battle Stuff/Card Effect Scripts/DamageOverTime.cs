@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DamageOverTime : CardEffect
 {
-    [SerializeField] private DamageOverTimeStatus statusPrefab;
+    [SerializeField] public DamageOverTimeStatus statusPrefab;
     public int damagePerTurnValue = 50;
     public int turns = 3;
     public bool targetPlayer;

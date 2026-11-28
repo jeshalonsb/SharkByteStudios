@@ -134,8 +134,10 @@ MonoBehaviour:
   cardSprite: {fileID: 0}
   selectionBorder: {fileID: 0}
   collider: {fileID: 0}
-  healstatusPrefab: {fileID: 0}
-  damagestatusPrefab: {fileID: 0}
+  healstatusPrefab: {fileID: 8815460119595743552, guid: 4dfaf3c4568818749a5d4e5b36edcdf3, type: 3}
+  damagestatusPrefab: {fileID: 6078476330479792181, guid: 65c1cbfe31fe8434ea98eef7ad58e147, type: 3}
+  tmp: {fileID: 0}
+  tmpText: 
   dictionary: {fileID: 0}
   cardTypeList: 
   cardSpriteList: []
@@ -150,6 +152,7 @@ MonoBehaviour:
   canDrag: 0
   templateCard: {fileID: 7705360371726345614}
   deckZone: {fileID: 0}
+  doneGen: 0
 --- !u!1 &6319119462837420549
 GameObject:
   m_ObjectHideFlags: 0

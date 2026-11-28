@@ -31,6 +31,8 @@ public class Inventory : MonoBehaviour
     public bool cardScene = false;
     private GameObject tempGameObject;
 
+    private CardDictionary dictionary;
+
     private List<string> sceneNameList = new List<string>() { "PT_Deck_Build", "BattleSceneTest", "WinScene" };
     public string sceneName;
     public int deckSize = 25; //at some point other scripts will update this
@@ -67,6 +69,9 @@ public class Inventory : MonoBehaviour
     
     private void Start()
     {
+        if(dictionary == null) { dictionary = GetComponent<CardDictionary>(); }
+        if(fullDeckList.Count < dictionary.cardNameList.Count) { fullDeckList = dictionary.cardNameList; }
+
         checkLockList = new List<bool>(new bool[fullDeckList.Count]);
         unlockedMechDeckList = new List<bool>(new bool[fullmechDeckList.Count]);
         UpdateLockedCards();

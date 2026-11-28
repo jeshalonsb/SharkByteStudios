@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PersistentHeal : CardEffect
 {
-    [SerializeField] private PersistentHealStatus statusPrefab;
+    [SerializeField] public PersistentHealStatus statusPrefab;
     public int healPerTurnValue = 50;
     public int turns = 3;
     public bool targetPlayer;
